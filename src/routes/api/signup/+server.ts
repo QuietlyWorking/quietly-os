@@ -7,6 +7,11 @@ import type { RequestHandler } from './$types';
 // Writes to quietly-os.qos_signups via service role, then fires a plaintext notification
 // email to TIG via Graph API. Per brief + feedback_private_feedback_channels.md:
 // TIG is the primary recipient, BCC guard doesn't apply.
+//
+// Important (CF Workers gotcha): fire-and-forget promises are CANCELLED when the Response
+// returns. We either await the notification synchronously (what this file does) or pass it
+// through `platform.context.waitUntil()`. Synchronous await is simpler and the latency is
+// ~1s, acceptable for a landing-page signup.
 
 export const POST: RequestHandler = async ({ request, platform, getClientAddress }) => {
 	let body: { email?: string; consent?: boolean; honeypot?: string; notes?: string };
@@ -20,7 +25,6 @@ export const POST: RequestHandler = async ({ request, platform, getClientAddress
 
 	// Spam check: honeypot must be empty.
 	if (honeypot && honeypot.trim().length > 0) {
-		// Return 200 so bots don't learn. Silently drop.
 		return json({ ok: true });
 	}
 
@@ -34,7 +38,6 @@ export const POST: RequestHandler = async ({ request, platform, getClientAddress
 
 	const serviceKey = platform?.env?.QOS_SUPABASE_SERVICE_ROLE_KEY;
 	if (!serviceKey) {
-		// Runtime secret missing. Log to console (visible in CF Workers logs), return generic.
 		console.error('[signup] QOS_SUPABASE_SERVICE_ROLE_KEY not configured in platform.env');
 		return json({ error: 'Signups temporarily unavailable. Try again shortly.' }, { status: 503 });
 	}
@@ -45,7 +48,7 @@ export const POST: RequestHandler = async ({ request, platform, getClientAddress
 
 	const userAgent = request.headers.get('user-agent') ?? null;
 	const clientIp = getClientAddress();
-	const ipHash = await sha256(clientIp + (platform?.env?.QOS_SUPABASE_SERVICE_ROLE_KEY ?? ''));
+	const ipHash = await sha256(clientIp + serviceKey);
 
 	const { data, error: insertError } = await supabase
 		.from('qos_signups')
@@ -68,18 +71,20 @@ export const POST: RequestHandler = async ({ request, platform, getClientAddress
 		return json({ error: 'Something went sideways saving your signup. Try again?' }, { status: 500 });
 	}
 
-	// Fire-and-forget TIG notification. Don't block response on email delivery.
-	notifyTig(platform, data).catch((err) => {
-		console.error('[signup] tig notification failed (non-blocking)', err);
+	// Send TIG notification synchronously so we can report the outcome.
+	// Failures here do NOT fail the signup response... the row is already saved.
+	const notification = await notifyTig(platform, data).catch((err) => {
+		console.error('[signup] tig notification error', err);
+		return { ok: false, reason: String(err).slice(0, 300) } as const;
 	});
 
-	return json({ ok: true, id: data.id });
+	return json({ ok: true, id: data.id, notification });
 };
 
 async function notifyTig(
 	platform: App.Platform | undefined,
 	row: { id: string; email: string; created_at: string; consent: boolean }
-) {
+): Promise<{ ok: boolean; reason?: string }> {
 	const tenantId = platform?.env?.MSGRAPH_TENANT_ID;
 	const clientId = platform?.env?.MSGRAPH_CLIENT_ID;
 	const clientSecret = platform?.env?.MSGRAPH_CLIENT_SECRET;
@@ -88,10 +93,10 @@ async function notifyTig(
 	const projectRef = 'bgwjuajxdkdnvmljqkqk';
 
 	if (!tenantId || !clientId || !clientSecret) {
-		console.warn('[signup] Graph API creds not configured; skipping TIG notification');
-		return;
+		return { ok: false, reason: 'graph-creds-missing' };
 	}
 
+	// 1. Acquire access token
 	const tokenRes = await fetch(
 		`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
 		{
@@ -107,12 +112,15 @@ async function notifyTig(
 	);
 
 	if (!tokenRes.ok) {
-		throw new Error(`graph token fetch failed: ${tokenRes.status}`);
+		const bodyText = await tokenRes.text().catch(() => '');
+		return { ok: false, reason: `token-${tokenRes.status}: ${bodyText.slice(0, 200)}` };
 	}
-	const { access_token } = (await tokenRes.json()) as { access_token: string };
+	const tokenJson = (await tokenRes.json()) as { access_token?: string };
+	const accessToken = tokenJson.access_token;
+	if (!accessToken) return { ok: false, reason: 'token-missing-in-response' };
 
+	// 2. Send mail
 	const supabaseRowUrl = `https://supabase.com/dashboard/project/${projectRef}/editor?table=qos_signups&filter=id.eq.${row.id}`;
-
 	const plainBody = [
 		`New QOS signup.`,
 		``,
@@ -129,7 +137,7 @@ async function notifyTig(
 		{
 			method: 'POST',
 			headers: {
-				Authorization: `Bearer ${access_token}`,
+				Authorization: `Bearer ${accessToken}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
@@ -138,15 +146,17 @@ async function notifyTig(
 					body: { contentType: 'Text', content: plainBody },
 					toRecipients: [{ emailAddress: { address: to } }]
 				},
-				saveToSentItems: false
+				saveToSentItems: true
 			})
 		}
 	);
 
 	if (!mailRes.ok) {
-		const text = await mailRes.text();
-		throw new Error(`graph sendMail failed: ${mailRes.status} ${text}`);
+		const bodyText = await mailRes.text().catch(() => '');
+		return { ok: false, reason: `sendmail-${mailRes.status}: ${bodyText.slice(0, 200)}` };
 	}
+
+	return { ok: true };
 }
 
 async function sha256(input: string): Promise<string> {
