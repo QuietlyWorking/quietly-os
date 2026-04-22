@@ -27,6 +27,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_QOS_SUPABASE_URL: ${{ secrets.PUBLIC_QOS_SUPABASE_URL }}
+          PUBLIC_QOS_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_QOS_SUPABASE_ANON_KEY }}
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
