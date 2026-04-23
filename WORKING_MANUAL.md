@@ -6,6 +6,22 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-04-23... Resolver Handles Roots + Generator Simplified
+
+The known limitation flagged in the CLAUDE.md Generator entry is closed. `resolve_values.py` ships as v1.1.0 with a public `resolve_root(values)` function and auto-detect on `inheritance.parent === null`. Root files now produce canonical `<shortName>.values.resolved.json` artifacts on disk just like children do... `QWF.values.resolved.json` now exists next to `QWR.values.resolved.json`, closing the asymmetry that consumers had to work around.
+
+Auto-detect is the default path. A `--root` flag is available as a defensive override for corrupted files where `inheritance.parent` might be misleading. Zero friction for all future callers... voice.v1, content.v1, universe.v1, and the remaining nine schemas in the 13-schema family now inherit the clean root-handling pattern from day one instead of duplicating the wrapper workaround in each generator.
+
+`generate_claude_md_block.py` shipped as v1.1.0 alongside. The in-memory `ensure_resolved()` self-wrap (55 lines) is gone. The reader is strict now: requires `<org>.values.resolved.json` on disk, sanity-checks the `_resolution` block on load, refuses unresolved source files with a clear error that points to the fix command. No more silent fallback paths. Drift cannot hide.
+
+Verification was rigorous. QWF payload SHA256 matched prediction exactly (`40953847...`), confirming the refactor is semantically pure... moving content from "root read and wrap in-memory" to "root write to disk then read" changed zero payload bytes. CLAUDE.md managed-body diff was exactly 2 lines, both markers flipping `source: QWF.values.json` to `source: QWF.values.resolved.json`. The 119 rendered lines of compass, hard rules, forbidden table, encouraged table, decision filters, and ethical boundaries preserved byte-for-byte. Zero em-dash substitutions at render time.
+
+One serialization artifact surfaced: `QWR.values.resolved.json` regeneration reshuffled key ordering in `meta` and `coreValues.craftsmanship` without changing semantic content. Sort-keyed canonical payload stayed stable. All 41 cascade lineage entries reproduced identically... craftsmanship still severity-raised, voice-fidelity and the four other QWR additions still from-child-added. File-level sha256 drifts were serialization noise, not cascade-behavior changes. Worth a one-time resolve of every child file whenever sources change, to keep committed artifacts in lockstep with fresh resolver output.
+
+Phase 1 of QOS is fully load-bearing now. Next session opens directly to `voice.v1.schema.json` design... the resolver unblock paid once saves every downstream schema.
+
+---
+
 ## 2026-04-23... brand.v2.3 Refactor Shipped
 
 Brand schema v2.3 ships. Eight sections now migrated out of brand into values.v1: `identity.values[]`, `content.youthProtection`, `content.unifiedIdentity`, `voice.punctuation.forbidden`, `voice.vocabulary.{forbidden,encouraged,use}`, `inheritance.absoluteRules`. The drift window where youth-protection and unified-identity rules lived in two schemas at once is closed. Single source of truth on each concern is back. QWR's production `brand_resolved` Supabase view now returns v2.3 data end-to-end.
