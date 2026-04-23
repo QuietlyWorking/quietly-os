@@ -6,6 +6,21 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-04-23... brand.v2.3 Refactor Shipped
+
+Brand schema v2.3 ships. Eight sections now migrated out of brand into values.v1: `identity.values[]`, `content.youthProtection`, `content.unifiedIdentity`, `voice.punctuation.forbidden`, `voice.vocabulary.{forbidden,encouraged,use}`, `inheritance.absoluteRules`. The drift window where youth-protection and unified-identity rules lived in two schemas at once is closed. Single source of truth on each concern is back. QWR's production `brand_resolved` Supabase view now returns v2.3 data end-to-end.
+
+- QOS reference-implementation meta (`standard`, `canonical_home`, `license`, `description`) landed at both schema-level and on every instance. Every brand file now self-identifies as a QOS artifact with a link home. Convention documented in `memory/feedback_qos_schemas_are_reference_implementations.md`.
+- `SchemaVersion` is now a `oneOf` union: semver string (`"2.3.0"`) preferred, legacy integer accepted. Backward-compatible. Latent bug surfaced immediately: the Supabase `schema_version` INT column rejected `"2.3.0"` on upsert. Fixed by projecting major version into the column while keeping full semver in `brand_json.meta`. Two commits: the v2.3 refactor + the sync-script projection fix.
+- `QWR.resolved.json` renamed to `QWR.brand.resolved.json`. Pattern is now `{shortName}.{schema}.resolved.json` across the 13-schema family. The file is a generated artifact for debugging and fixtures only... the live `brand_resolved` Supabase view is populated by in-memory resolution during sync, not by reading filesystem files.
+- Supporter brands (GreenCal, PetersenLegacyLaw, GothamGoodDogs) retain their own `identity.values[]` and `voice.vocabulary.*` locally under `additionalProperties: true`. They are not QWF-values-derived and await their own `<ShortName>.values.json` and `voice.v1` migrations. Catalogued in the directive's new `Remaining Migrations (Post v2.3)` table (17 rows, 4 columns).
+- Values.v1 drift fix folded into the same commit: `QWF.values.json` + `QWR.values.json` `canonical_home` corrected from `.com` to `.org`. `values.v1.schema.json` itself still has `.com` at schema-level... one-line edit deferred to next session (logged in Open Questions).
+- Em-dash discipline: zero new em dashes introduced in any authored content (schema + 5 brand files + 2 values fixes + directive additions + WORKING_MANUAL entry). Pre-existing em-dash prose in supporter-brand narrative, directive boilerplate, and resolver docstring flagged for a separate voice-scrub pass.
+
+Phase 1.5 of the Programmatic Identity System. Phase 2 is `voice.v1.schema.json` (extract from `brand.voice`) and the first supporter-brand values.json. Brand is no longer the single god-object for identity. It's one schema among 13, each owning its own concern.
+
+---
+
 ## 2026-04-23... CLAUDE.md Generator Shipped
 
 `generate_claude_md_block.py` now reads a resolved values.json and writes a marker-block section into CLAUDE.md. Every Claude Code session opens with TIG's compass, hard rules, forbidden vocab, encouraged vocab, decision filters, and ethical boundaries injected structurally, not remembered.
