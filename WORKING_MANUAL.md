@@ -6,6 +6,22 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-04-23... CLAUDE.md Generator Shipped
+
+`generate_claude_md_block.py` now reads a resolved values.json and writes a marker-block section into CLAUDE.md. Every Claude Code session opens with TIG's compass, hard rules, forbidden vocab, encouraged vocab, decision filters, and ethical boundaries injected structurally, not remembered.
+
+Values.v1 is load-bearing. The schema stopped being a spec and started being infrastructure.
+
+The generator is a standalone Python CLI plus importable module. No Jinja2, no template engine... f-strings only. Flags: `--org`, `--target`, `--dry-run`, `--force`, `--rollback`. Anchor: the block inserts immediately before `## Directive Structure` and owns its own H2 heading inside the marker span so rename protection works. Every write atomically backs up the prior CLAUDE.md to `.tmp/claude_md_backups/`. Hash in the BEGIN/END markers matches the source values.json payload with `_resolution` stripped, so drift detectors can pair begin/end and lineage churn doesn't bust the hash.
+
+Eats its own dog food. Every prose string the generator emits into CLAUDE.md or stdout uses ellipsis, never em dashes. When a source field leaks an em dash, the generator substitutes to ellipsis at render time AND logs a warning to stderr with the exact field path... so drift surfaces noisily rather than hiding forever. The one permitted em dash lives inside the forbidden-table Pattern column for the `punctuation-em-dash` rule, where the character is the specimen being documented (labeled test-fixture pattern).
+
+Four tests green: insert, idempotent re-run (in-sync, no write), `--force` regeneration, and `--rollback` restoration. On the first write, QWF.values.json got mutated externally between runs (`quietlyos.com` → `quietlyos.org` in two places), and the idempotency test initially failed... turned out to be correct behavior. Source changed, generator regenerated. The retest with stable source passed cleanly.
+
+One known limitation to close in a follow-up session: `resolve_values.py` cannot self-resolve a root file (no parent to cascade from). The generator currently side-steps this by wrapping unresolved roots with a trivial `_resolution` block at read time. Fix: add `--root` flag or auto-detect no-parent case in `resolve_values.py`. Scope for another session.
+
+---
+
 ## 2026-04-23... Three Planes: Standard, Not Product
 
 Landing page copy update to reframe the three planes as the standard, not the QWF app family.
