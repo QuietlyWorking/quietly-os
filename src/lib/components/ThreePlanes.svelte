@@ -12,7 +12,7 @@
 			app: 'QWB',
 			name: 'Quietly Webbing',
 			role: 'Executes',
-			body: "Deploys supporter sites and runs operations against the resolved JSON. Deterministic pipelines. Zero LLM in the rendering path."
+			body: "Any app or agent that reads resolved JSON and takes deterministic action. QWF runs QWB for sites, QWR for articles, QNT for chapters, plus sibling apps for quoting, tracking, and outreach. Pattern: LLMs decide, code executes."
 		},
 		{
 			tag: 'Observation',
@@ -65,5 +65,12 @@
 				</div>
 			{/each}
 		</div>
+
+		<p class="mt-12 max-w-3xl text-sm italic text-muted-foreground/80 md:text-base">
+			QOS is a standard. The QWF app family is one reference implementation... the one that eats
+			its own dog food. Your implementation can be entirely different. Fork the schemas. Build your
+			own control/execution/observation layers. The contracts in the JSON are what matter, not the
+			specific apps around them.
+		</p>
 	</div>
 </section>
