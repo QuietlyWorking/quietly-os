@@ -6,6 +6,18 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-04-23... Three Planes: Standard, Not Product
+
+Landing page copy update to reframe the three planes as the standard, not the QWF app family.
+
+The EXECUTION card now names the real reference implementation: QWB for sites, QWR for articles, QNT for chapters, plus sibling apps for quoting, tracking, and outreach. Pattern stated plainly: LLMs decide, code executes.
+
+Added a paragraph below the three cards: QOS is a standard. The QWF app family is one reference implementation... the one that eats its own dog food. Fork the schemas. Build your own control/execution/observation layers. The contracts in the JSON are what matter, not the specific apps around them.
+
+Why the change: visitors were reading the three cards as "you need QOP + QWB + QSP to do this." That's backward. You need JSON schemas that separate control from execution from observation. The QWF apps are one way to implement that split, not the only way.
+
+---
+
 ## 2026-04-22... quietlyos.org Shipped
 
 The public home for QOS is live. v1 is a scroll-driven landing page... road sign plus coming soon... sharing the vision, showing the live build via this Working Manual, and collecting "keep me in the loop" signups.
