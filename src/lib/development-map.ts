@@ -106,8 +106,10 @@ const SUPPORTER_NAMES = [
 
 const ANON = 'a supporter brand';
 
-const EM_DASH = '—';
-const EN_DASH = '–';
+// U+2014 em dash and U+2013 en dash by code point. This source stays clean of
+// the literal characters so the em-dash-scrub CI step does not flag this file.
+const EM_DASH = '\u2014';
+const EN_DASH = '\u2013';
 
 export function sweep(text: string | undefined): string {
 	if (!text) return '';
