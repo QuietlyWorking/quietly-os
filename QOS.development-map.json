@@ -1,0 +1,751 @@
+{
+  "$schema": "https://quietlyworking.org/schemas/roadmap/qos_development_map.v1.json",
+  "meta": {
+    "schemaVersion": 1,
+    "mapVersion": "1.1.0",
+    "createdAt": "2026-04-23",
+    "updatedAt": "2026-04-23",
+    "lastReviewedAt": "2026-04-23",
+    "owners": ["TIG"],
+    "approvers": ["TIG"],
+    "status": "active",
+    "standard": "QOS",
+    "canonical_home": "https://quietlyos.org",
+    "license": "[pending governance]",
+    "description": "Reference implementation of programmatic build-journey tracking under the Quietly Working Foundation's Quietly Operating Standard (QOS). Public at quietlyos.org. Maintained by Quietly Working Foundation (501(c)(3)).",
+    "changelog": [
+      {
+        "date": "2026-04-23",
+        "change": "Initial QOS.development-map.json with 52 nodes across 6 phases. Phase 0 (Origin) seeded with 6 shipped nodes that each point at real vault artifacts... VOSPA methodology, TIG's 5-line compass, TIG's personal dreams, the Duct Tape to Rocket Ship series, the QOS reference-implementation convention, and the three-plane architecture. Phase 1 lists 14 schemas (13 programmatic identity + the dev map itself); 4 shipped. Phase 2 lists 8 consumption-layer deliverables; 3 shipped. Phase 3 lists 15 QOP editors; 1 spec-only. Phase 4 lists 2 testing-harness components; 0 shipped. Phase 5 lists 7 open-standard deliverables; 2 shipped. All shipped node files[] entries verified against filesystem before authoring.",
+        "reason": "Checkpoint 2 of the QOS Development Map build. JSON is the source of truth; render scripts consume it deterministically; validator catches drift between declared files[] and on-disk state.",
+        "author": "TIG + Claude (Opus 4.7)"
+      },
+      {
+        "date": "2026-04-23",
+        "change": "mapVersion 1.0.0 -> 1.1.0. Consolidated 4 dev-map-specific nodes (p1.development-map.v1, p2.consumption.dev-map-tooling, p2.consumption.session-wrap-up-integration, p5.open-standard.development-map-public-render) into a single in-flight node p1.qos.development-map with in_flight_since=2026-04-23T14:45:00-07:00. Node total drops 52 to 49. Added the three Checkpoint 3 scripts to files[] (render, validate, toggle) with kind=script. Updated p3.qop.development-map-editor.depends_on to reference the consolidated id. Honors the eat-your-own-dog-food discipline surfaced during Checkpoint 2 review: the map cannot honestly claim shipped until schema + instance + tooling + integration + public render are all load-bearing.",
+        "reason": "Checkpoint 3 of the QOS Development Map build. TIG's clarification: single-node tracking with transition to shipped deferred until Checkpoint 4 closes.",
+        "author": "TIG + Claude (Opus 4.7)"
+      }
+    ]
+  },
+  "identity": {
+    "shortName": "QOS",
+    "name": "Quietly Operating Standard"
+  },
+  "phases": [
+    {
+      "id": "p0",
+      "label": "Origin",
+      "description": "What predates the schema work. VOSPA as 30-year consulting methodology, TIG's compass, personal dreams, teaching artifacts, and the principles that shape every later phase. The origin phase anchors the journey in legacy, not just infrastructure.",
+      "goal": "Every principle that shapes later phases has a vault artifact grounding it; each node passes the drift validator against a real file.",
+      "order": 0
+    },
+    {
+      "id": "p1",
+      "label": "Schema Layer",
+      "description": "The 13 programmatic-identity schemas of QOS (values, brand, site, voice, universe, interconnect, content, tools, wisdom, people, automations, metrics, passport) plus the development-map schema itself. Each schema defines its concern as a JSON contract with inheritance, cascade policy, and self-identifying meta.",
+      "goal": "All 14 p1 nodes shipped with schema files, root/child instances where applicable, and associated validators/resolvers.",
+      "order": 1
+    },
+    {
+      "id": "p2",
+      "label": "Consumption Layer",
+      "description": "Code that reads the schema instances and produces downstream value... CLAUDE.md injection, Supabase views, deterministic renderers, TypeScript clients, n8n readers, dev-map tooling, session-wrap-up integration.",
+      "goal": "Every schema has a working consumption path; CLAUDE.md agents, SvelteKit apps, Supabase views, and scheduled automations all read canonical JSON without hallucinating structure.",
+      "order": 2
+    },
+    {
+      "id": "p3",
+      "label": "QOP Edit UI",
+      "description": "The Control plane. SvelteKit app (QOP... Quietly Operating) hosts one editor page per schema. Sliders, forms, version history, variant forking. Operators edit truth here; every other system reads it.",
+      "goal": "All 14 schema editors shipped on top of a shared app shell; values-editor is the proof-of-concept and sets the pattern.",
+      "order": 3
+    },
+    {
+      "id": "p4",
+      "label": "Testing Layer",
+      "description": "A/B harness for variant routing + metric capture + statistical significance gates + winner promotion. Converts 'brand guidance' into 'brand science'... testable hypotheses with measurable outcomes.",
+      "goal": "Ship a harness that routes traffic to variant JSON, captures engagement metrics, and auto-promotes winners with human-in-the-loop review.",
+      "order": 4
+    },
+    {
+      "id": "p5",
+      "label": "Open Standard",
+      "description": "Public publication of QOS as a genuine standard. Schema gallery, documentation site, governance model, license finalization, reference apps. This is what makes QOS a Schema.org-grade artifact, not an internal tool.",
+      "goal": "Every schema is public under a finalized license with docs, governance process, and at least one reference application beyond QWF itself.",
+      "order": 5
+    }
+  ],
+  "nodes": [
+    {
+      "id": "p0.vospa.origin",
+      "phase": "p0",
+      "label": "VOSPA 5-Layer Methodology",
+      "status": "shipped",
+      "description": "VOSPA... Values, Organization, Story, People, Automation plus Diagnostics. TIG's proven 5-layer consulting framework, delivered as human consulting ($10K+/mo) across 30+ years of engagements. Every QWF app programmatizes a piece of it.",
+      "why": "VOSPA is the source methodology the entire QOS stack exists to encode. Without VOSPA as the grounding, the schemas would be design-from-scratch invention instead of the democratization of a proven framework. The tree hangs from this root.",
+      "timestamps": { "shipped_at": "1996-01-01" },
+      "files": [
+        { "path": "memory/project_vospa_methodology.md", "kind": "memory", "description": "Canonical summary of the 5-layer framework, tier mapping, and QWF app mapping." },
+        { "path": "002 Projects/Brainstorms/QWF-Programmatic-Identity-System-Capture.md", "kind": "capture", "description": "Master vision capture; the VOSPA section opens the whole document." },
+        { "path": "Quietly Working Universe Public Transparency Project/QWU_VOSPAPlan_masterDiagram.md", "kind": "master-diagram", "description": "9,820-line master diagram including the canonical QWU VOSPA Plan." }
+      ],
+      "tags": ["foundational", "compass:fuel"]
+    },
+    {
+      "id": "p0.compass.5-lines",
+      "phase": "p0",
+      "label": "TIG's 5-Line Compass",
+      "status": "shipped",
+      "description": "People = #1 priority. Wisdom = fuel. Values = compass. Curiosity + focus = the balance that keeps life a beautiful adventure. Love = ensures life turns into legacy. Surfaced 2026-04-22 and structurally encoded into values.v1 the same day.",
+      "why": "The compass is the foundation under every technical decision in QOS. When a decision fails one of the five lines, reconsider. When it serves all five, ship. Every schema ties back to the compass.",
+      "timestamps": { "shipped_at": "2026-04-22" },
+      "files": [
+        { "path": "memory/tig_mission_compass.md", "kind": "memory", "description": "TIG's words verbatim plus the application guide for how agents use the compass as a decision filter." }
+      ],
+      "tags": ["foundational", "compass:compass"]
+    },
+    {
+      "id": "p0.tig.dreams",
+      "phase": "p0",
+      "label": "TIG's Personal Dreams",
+      "status": "shipped",
+      "description": "The post-replacement purpose that QOS serves. QCP legacy storytelling, Splinter sci-fi, the 7 Steps series, FORGE physical space, operational replacement so TIG can focus on appreciation and discovering the next demographic to support. Every build decision checks against these dreams as well as the compass.",
+      "why": "The systems are scaffolding. The scaffolding frees TIG and future working founders to live the compass instead of being trapped in operational minutia. The dreams are what the compass produces when the scaffolding works. Without them named, the map has no destination.",
+      "timestamps": { "shipped_at": "2026-04-22" },
+      "files": [
+        { "path": "memory/tig_personal_dreams.md", "kind": "memory", "description": "Durable list of TIG's personal creative and legacy dreams that the QOS stack is built to enable." }
+      ],
+      "tags": ["foundational", "compass:legacy"]
+    },
+    {
+      "id": "p0.series.duct-tape",
+      "phase": "p0",
+      "label": "Duct Tape to Rocket Ship Series",
+      "status": "shipped",
+      "description": "26-article curriculum teaching VOSPA progressively over six stages (Inspiration, Demystification, Practical Whys, Setup, Usage, Archer's View). Serves the Inspired, the Builder, and the Buyer in one long-form artifact. Simultaneously VOSPA-as-education and VOSPA-as-marketing.",
+      "why": "The series is the DIY tier of VOSPA delivery (the 70% path). It warms the app-family funnel and the done-for-you consulting funnel at the same time. QOS schemas give readers the deterministic building blocks; the series teaches them how the blocks fit together.",
+      "timestamps": { "shipped_at": "2026-04-15" },
+      "files": [
+        { "path": "002 Projects/_Duct Tape to Rocket Ship/Series-Bible.md", "kind": "series-bible", "description": "1,040-line series bible with the 26-article curriculum, progressive assessment design, and three-audience framing." },
+        { "path": "memory/project_duct_tape_to_rocket_ship.md", "kind": "memory", "description": "Memory pointer to the series and its teaching role inside the QWF ecosystem." }
+      ],
+      "tags": ["foundational", "compass:fuel", "education"]
+    },
+    {
+      "id": "p0.qos.reference-implementation-convention",
+      "phase": "p0",
+      "label": "QOS Schemas Self-Identify",
+      "status": "shipped",
+      "description": "Every QOS schema ships with meta.standard='QOS', meta.canonical_home='https://quietlyos.org', meta.license, and a meta.description self-identifying as a reference implementation. Turns internal schemas into public artifacts at the moment they're authored.",
+      "why": "QOS is being built as a public standard, not an internal tool. Self-identifying metadata is what makes QOS's reference implementation legible to outside adopters. Without this convention established early, retrofit at open-standard publication time would be painful across 14+ schemas.",
+      "timestamps": { "shipped_at": "2026-04-22" },
+      "files": [
+        { "path": "memory/feedback_qos_schemas_are_reference_implementations.md", "kind": "memory", "description": "Canonical convention documented 2026-04-22 after TIG confirmed during values.v1 authoring." }
+      ],
+      "tags": ["foundational", "governance", "open-standard"]
+    },
+    {
+      "id": "p0.architecture.three-plane",
+      "phase": "p0",
+      "label": "Three-Plane Architecture (QOP/QWB/QSP)",
+      "status": "shipped",
+      "description": "Control / Execution / Observation split across three QWF apps. QOP (Quietly Operating) hosts the edit UI, QWB (Quietly Webbing) deploys supporter sites deterministically, QSP (Quietly Spotting) visualizes current state, A/B results, change history. Distributed-systems write/execute/read separation applied to organizational identity.",
+      "why": "The three-plane split is a load-bearing architectural decision. It lets each plane evolve independently without breaking the others. Editing, deploying, and observing are separate concerns that should not be coupled. Every later phase of the map (p3 editors, p4 testing, p5 open standard) flows from this separation.",
+      "timestamps": { "shipped_at": "2026-04-21" },
+      "files": [
+        { "path": "memory/project_programmatic_identity_system.md", "kind": "memory", "description": "Memory pointer with the three-plane table and how it maps to QWF apps." },
+        { "path": "002 Projects/Brainstorms/QWF-Programmatic-Identity-System-Capture.md", "kind": "capture", "description": "Three-plane section (clarified by TIG 2026-04-21) defining the write/execute/read split." }
+      ],
+      "tags": ["foundational", "architecture"]
+    },
+
+    {
+      "id": "p1.values.v1",
+      "phase": "p1",
+      "label": "values.v1 Schema + Instances + Tooling",
+      "status": "shipped",
+      "description": "Full values layer of QOS. JSON Schema Draft 2020-12 with 15 $defs, root and child instance files, resolved artifacts with per-item lineage tracking, cascade-policy-enforcing resolver (6 violation classes caught at resolve time), validator (structural + cross-reference + em-dash leak + test-fixture shape), and a buildable Values Editor spec.",
+      "why": "First QOS schema to ship and the proof that the pattern works. Encodes TIG's compass structurally, makes ABSOLUTE rules unforgeable across children, and unblocks the CLAUDE.md generator + the Values Editor as the first QOP page. Phase 1's pattern lives here.",
+      "timestamps": { "shipped_at": "2026-04-22" },
+      "files": [
+        { "path": "005 Operations/Standards/values/values.v1.schema.json", "kind": "schema" },
+        { "path": "005 Operations/Values/QWF.values.json", "kind": "instance", "description": "Root values for QWF: 5 compass lines, 5 coreValues, 5 absoluteRules, 3 decisionFilters, 9 forbiddenBehaviors, 7 encouragedBehaviors, 4 ethicalBoundaries, 33 embedded tests." },
+        { "path": "005 Operations/Values/QWR.values.json", "kind": "instance", "description": "Override-only child for QWR demonstrating severity raise plus 5 additions." },
+        { "path": "005 Operations/Values/QWF.values.resolved.json", "kind": "instance", "description": "Resolved root artifact (added in v1.1.0 when resolver learned to handle roots)." },
+        { "path": "005 Operations/Values/QWR.values.resolved.json", "kind": "instance", "description": "Resolved child with full 41-entry lineage block." },
+        { "path": "005 Operations/Execution/validate_values.py", "kind": "script", "description": "v1.1.0 validator with path-scoped em-dash exemption." },
+        { "path": "005 Operations/Execution/resolve_values.py", "kind": "script", "description": "v1.1.0 resolver with auto-detect root handling." },
+        { "path": "002 Projects/_QOP Quietly Operating/Values-Editor-Spec-v1.md", "kind": "spec", "description": "758-line buildable spec for the first QOP page; proves the schema's UI surface." }
+      ],
+      "working_manual_entry": {
+        "date": "2026-04-22",
+        "heading": "Phase 1: Values Layer Shipped"
+      },
+      "changelog": [
+        { "date": "2026-04-22", "change": "Initial ship: schema v1, QWF root, QWR child, validator v1.0.0, resolver v1.0.0, Values Editor spec.", "author": "TIG + Claude" },
+        { "date": "2026-04-23", "change": "Resolver v1.1.0: auto-handle roots via resolve_root(); QWF.values.resolved.json lands on disk; generator simplification.", "author": "TIG + Claude" },
+        { "date": "2026-04-24", "change": "Validator v1.1.0: path-scoped em-dash exemption (encouragedBehaviors.pattern gap closed); 14 regression tests locked.", "author": "TIG + Claude" }
+      ],
+      "tags": ["schema-layer", "foundational", "load-bearing"]
+    },
+    {
+      "id": "p1.brand.v2-x",
+      "phase": "p1",
+      "label": "brand.v2.x Schema + Instances + Resolver",
+      "status": "shipped",
+      "description": "Brand schema family (currently v2.3). 30 top-level sections, JSON Schema Draft 2020-12, merge-policy.json with 124 paths and 10 strategies, Python resolver (8 of 11 strategies), production instances for QWF and QWR plus three supporter-brand roots. v2.3 migrated values-bearing sections out to values.v1 (single source of truth restored).",
+      "why": "Brand is where identity, heritage, audience, voice, visual, messaging, credentials, and policies live. QWR reads brand data live in production. Brand.v2.3 is the first schema to adopt the QOS reference-implementation convention retroactively.",
+      "timestamps": { "shipped_at": "2026-04-23" },
+      "files": [
+        { "path": "005 Operations/Standards/brand/brand.v2.3.schema.json", "kind": "schema", "description": "Current production schema (v2.3)." },
+        { "path": "005 Operations/Standards/brand/merge-policy.json", "kind": "schema", "description": "124 paths, 10 merge strategies." },
+        { "path": "005 Operations/Standards/brand/RESOLVER_SPEC.md", "kind": "spec", "description": "13-section resolver specification (API, phases, edge cases, storage, test fixtures)." },
+        { "path": "005 Operations/Brands/QWF.brand.json", "kind": "instance", "description": "Root brand file for QWF." },
+        { "path": "005 Operations/Brands/QWR.brand.json", "kind": "instance", "description": "Override-only child for QWR." },
+        { "path": "005 Operations/Execution/resolve_brand.py", "kind": "script" },
+        { "path": "005 Operations/Execution/validate_brand.py", "kind": "script" },
+        { "path": "005 Operations/Execution/lint_brand.py", "kind": "script" }
+      ],
+      "working_manual_entry": {
+        "date": "2026-04-23",
+        "heading": "brand.v2.3 Refactor Shipped"
+      },
+      "changelog": [
+        { "date": "2026-04-17", "change": "v2.2 production ship (schema, resolver, 5 brand files, Supabase view, sync script).", "author": "TIG + Claude" },
+        { "date": "2026-04-23", "change": "v2.3 refactor: 8 values-bearing sections migrated to values.v1; QOS reference-implementation meta adopted; SchemaVersion oneOf union; .brand.resolved.json rename for family alignment.", "author": "TIG + Claude" }
+      ],
+      "tags": ["schema-layer", "production"]
+    },
+    {
+      "id": "p1.site.v1",
+      "phase": "p1",
+      "label": "site.v1 Schema + Primitive Inventory",
+      "status": "shipped",
+      "description": "Site composition schema. 22 canonical primitives across 74 variants (hero, features, testimonials, ctaBand, navHeader, footer, faqAccordion, gallery, teamGrid, processSteps, etc). JSON Schema Draft 2020-12, render-agnostic. Paired with a 206-line primitive inventory.",
+      "why": "Defines how a site composes from typed building blocks rather than freeform HTML. Unblocks deterministic page rendering (no LLM in the conversion path, per the Session 249 fabrication lesson). Schema itself is shipped; the dedicated validator is a separate p2 deliverable.",
+      "timestamps": { "shipped_at": "2026-04-15" },
+      "files": [
+        { "path": "005 Operations/Standards/site/site.v1.schema.json", "kind": "schema" },
+        { "path": "005 Operations/Standards/site/PRIMITIVE_INVENTORY.md", "kind": "spec", "description": "206-line canonical inventory of the 22 primitives and 74 variants." }
+      ],
+      "tags": ["schema-layer", "production"],
+      "notes": "Dedicated site validator is tracked separately as p2.consumption.site-validator. Schema layer itself is shipped."
+    },
+    {
+      "id": "p1.qos.development-map",
+      "phase": "p1",
+      "label": "QOS Development Map (Schema + Instance + Tooling + Integration + Public Render)",
+      "status": "in-flight",
+      "description": "The QOS Development Map as a whole QOS-under-QOS artifact. Schema (Checkpoint 1), instance (Checkpoint 2), tooling render + validate + toggle (Checkpoint 3), session-wrap-up skill integration and quietlyos.org public render (Checkpoint 4). Transitions to shipped only when every piece is load-bearing. The map passes its own drift check from day one.",
+      "why": "Tracked as a single node because the map's value is end-to-end... schema alone cannot auto-update, instance alone cannot render, tooling alone cannot anonymize. Claiming the node as shipped before Checkpoint 4 completes would violate eat-your-own-dog-food discipline. The unified node is the only honest tracking shape for a cross-cutting artifact.",
+      "timestamps": {
+        "in_flight_since": "2026-04-23T14:45:00-07:00"
+      },
+      "files": [
+        { "path": "005 Operations/Standards/roadmap/qos_development_map.v1.schema.json", "kind": "schema", "description": "Schema drafted in Checkpoint 1 (commit f2ce9c51d)." },
+        { "path": "005 Operations/Standards/roadmap/QOS.development-map.json", "kind": "instance", "description": "This file. Full 49-node instance authored in Checkpoint 2 (commit 5f4558513)." },
+        { "path": "005 Operations/Directives/qos_development_map.md", "kind": "directive", "description": "SOP covering authoring, transitions, drift protocol, version-bump policy, supporter-anonymity, and naming conventions." },
+        { "path": "005 Operations/Execution/validate_qos_development_map.py", "kind": "script", "description": "v1.0.0 validator (8 checks). Checkpoint 3." },
+        { "path": "005 Operations/Execution/toggle_development_map_node.py", "kind": "script", "description": "v1.0.0 toggle CLI + importable. Calls validator internally before writing. Checkpoint 3." },
+        { "path": "005 Operations/Execution/render_qos_development_map.py", "kind": "script", "description": "v1.0.0 render ASCII + HTML with supporter-anonymity sweep. Checkpoint 3." }
+      ],
+      "tags": ["schema-layer", "meta", "self-reference", "in-flight", "load-bearing"],
+      "notes": "Remaining work before shipped: (1) session-wrap-up SKILL.md additive edit, (2) quietlyos.org DevelopmentMap.svelte public render with sweep, (3) end-to-end verification per the Checkpoint 4 plan."
+    },
+    {
+      "id": "p1.voice.v1",
+      "phase": "p1",
+      "label": "voice.v1 Schema + Instances",
+      "status": "planned",
+      "description": "Standalone voice schema extracted from brand.voice. Personality, tone, vocabulary, signatures, emoji palette, principles, samples, red flags. First targets: QWR product vocab (amplify / voice / story / ghostwriter) and supporter-brand vocabulary currently living in brand.v2.3 under additionalProperties: true.",
+      "why": "Voice deserves its own schema. Multiple QWF programs generate content on behalf of supporters; voice profiles need to version, A/B test, and branch independently of brand identity. Unblocks per-audience voice rendering and the voice-editor QOP page.",
+      "depends_on": ["p1.values.v1", "p1.brand.v2-x"],
+      "parallel_safe_with": ["p1.universe.v1", "p1.people.v1"],
+      "tags": ["schema-layer", "next-in-queue"]
+    },
+    {
+      "id": "p1.universe.v1",
+      "phase": "p1",
+      "label": "universe.v1 Schema + Instance",
+      "status": "planned",
+      "description": "App family composition schema. Describes QWF's 24 quietly* Cloudflare domains as a single connected ecosystem... app relationships, visibility rules, cross-app redirects, ecosystem widget driver data.",
+      "why": "The ecosystem widget is hardcoded in EcosystemOrbitSection.tsx across 8 apps. Making it JSON-driven means new apps auto-appear after domain registration without code changes. Also unblocks the public-facing schema gallery: QOS can describe its own app family declaratively.",
+      "parallel_safe_with": ["p1.voice.v1", "p1.people.v1", "p1.tools.v1"],
+      "tags": ["schema-layer"]
+    },
+    {
+      "id": "p1.interconnect.v1",
+      "phase": "p1",
+      "label": "interconnect.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Link graph schema. Rules for when App A links App B, reader journeys, canonical-article cross-references, auto-link enforcement across transparency content and chaplaintig.com.",
+      "why": "Reader journeys across the QWF ecosystem are currently ad-hoc. Interconnect as JSON means the next-link recommendation engine, auto-link linter, and cross-app reader journey observation (in QSP) all consume the same authoritative source.",
+      "depends_on": ["p1.universe.v1"],
+      "tags": ["schema-layer"]
+    },
+    {
+      "id": "p1.content.v1",
+      "phase": "p1",
+      "label": "content.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Article DNA schema. Required section structure, per-audience variants, forbidden vocab enforcement, JSON-LD / Open Graph / Twitter Card defaults, canonical-URL rules. Governs transparency.quietlyworking.org, chaplaintig.com, and every in-app content surface.",
+      "why": "QWR does not currently emit structured data explicitly. Content.v1 fixes this deterministically: code injects JSON-LD from the schema, never LLM-generated. The same schema drives section-level consistency across every content surface.",
+      "depends_on": ["p1.voice.v1", "p1.brand.v2-x"],
+      "parallel_safe_with": ["p1.tools.v1", "p1.wisdom.v1"],
+      "tags": ["schema-layer", "seo"]
+    },
+    {
+      "id": "p1.tools.v1",
+      "phase": "p1",
+      "label": "tools.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Tool inventory schema with TWL pointers. Every tool in the QWU stack... Claude, n8n, Supabase, Lovable, Atlux, UE5, Obsidian, BrightLocal, GSAP, Astro, Starlight, SvelteKit, Cloudflare Pages, DaVinci, HeyGen, Descript, FFmpeg, and more... as a machine-readable registry.",
+      "why": "TWLs currently live as directives referenced in CLAUDE.md. A schema-level registry unblocks agent tool-wisdom query at the start of any session, auto-generation of the TWL table, and a public tool-inventory surface for the open standard.",
+      "parallel_safe_with": ["p1.voice.v1", "p1.universe.v1", "p1.wisdom.v1"],
+      "tags": ["schema-layer"]
+    },
+    {
+      "id": "p1.wisdom.v1",
+      "phase": "p1",
+      "label": "wisdom.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Wisdom registry schema. Open question on storage mode: inline in schema instances, DB-registry (the existing wisdom.db), or hybrid. values.v1 uses the hybrid pattern (inline why + optional sources[] pointing at vault paths or wisdom ids); wisdom.v1 formalizes the registry side.",
+      "why": "Wisdom is the cross-cutting infrastructure layer per the compass (Wisdom = fuel). Without a schema, wisdom entries live in ad-hoc memory files, directive sidebars, and the existing wisdom.db without cross-references to schema instances. Locking the storage mode unblocks tool-wisdom query APIs and QSP surfaces.",
+      "parallel_safe_with": ["p1.voice.v1", "p1.universe.v1", "p1.tools.v1"],
+      "tags": ["schema-layer", "open-design-question"]
+    },
+    {
+      "id": "p1.people.v1",
+      "phase": "p1",
+      "label": "people.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Org structure schema. Roles, leadership, credentials, team relationships, youth-program boundaries (no PII pre-employment, etc). Compatible with brand.relationships.leadership today; formalizes the person-as-first-class-entity pattern.",
+      "why": "People are the #1 priority per the compass, but they're currently scattered across entity notes, brand files, and operational configs. A unified schema unblocks org visualization in QSP, people-editor in QOP, and permissioned access to youth data per the protection standard.",
+      "parallel_safe_with": ["p1.voice.v1", "p1.universe.v1", "p1.tools.v1", "p1.wisdom.v1"],
+      "tags": ["schema-layer", "youth-protection-sensitive"]
+    },
+    {
+      "id": "p1.automations.v1",
+      "phase": "p1",
+      "label": "automations.v1 Schema + Instance",
+      "status": "planned",
+      "description": "n8n workflow registry plus Python execution script catalog. Every automation described with purpose, inputs, outputs, side effects, trigger, owner, and on-failure behavior.",
+      "why": "n8n workflows and Python scripts currently live as JSON files and *.py files without a unified registry. A schema unblocks automations-editor in QOP, n8n automation discovery at the CLI, and on-failure runbook generation for QSP.",
+      "parallel_safe_with": ["p1.people.v1", "p1.tools.v1"],
+      "tags": ["schema-layer"]
+    },
+    {
+      "id": "p1.metrics.v1",
+      "phase": "p1",
+      "label": "metrics.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Measurement schema. KPIs, dashboards, per-VOSPA-layer health signals, alert thresholds, data sources. Unifies the existing QSP metric surfaces (BrightLocal, Betterstack, Supabase logs, Azure costs) into one machine-readable declaration.",
+      "why": "QSP has its own dashboards already; metrics.v1 unblocks declarative dashboard generation plus cross-supporter metric comparison. Drives the metric-dashboard surface for the A/B harness at p4.",
+      "parallel_safe_with": ["p1.people.v1", "p1.automations.v1"],
+      "tags": ["schema-layer"]
+    },
+    {
+      "id": "p1.passport.v1",
+      "phase": "p1",
+      "label": "passport.v1 Schema + Instance",
+      "status": "planned",
+      "description": "QWF Passport cross-app auth schema. Formalizes the currently-operational single-sign-on as a declarative config (apps, scopes, trust levels, redirect URLs, session lifetime).",
+      "why": "Passport works operationally but is not formalized as JSON. Schema unblocks passport-editor in QOP, lets new apps register their auth config declaratively, and makes the trust graph between apps inspectable and auditable.",
+      "parallel_safe_with": ["p1.people.v1", "p1.automations.v1"],
+      "tags": ["schema-layer", "lower-priority"]
+    },
+
+    {
+      "id": "p2.consumption.claude-md-injection",
+      "phase": "p2",
+      "label": "CLAUDE.md Generator",
+      "status": "shipped",
+      "description": "Reads resolved values.json, renders startup-priority agentContext.claudeMdSections into a managed Markdown block inside CLAUDE.md. Marker block with SHA256 for drift detection, atomic writes, backup to .tmp/, rollback flag, dry-run mode. Eats own dog food: em-dash scrub with stderr drift warnings plus end-of-run substitution count.",
+      "why": "Values.v1 stopped being a spec and started being infrastructure the moment this generator shipped. Every Claude Code session now opens with TIG's compass, hard rules, forbidden vocab, encouraged vocab, decision filters, and ethical boundaries injected structurally, not remembered.",
+      "timestamps": { "shipped_at": "2026-04-23" },
+      "files": [
+        { "path": "005 Operations/Execution/generate_claude_md_block.py", "kind": "script", "description": "v1.1.0 Python CLI plus importable module. No Jinja2. f-strings only." }
+      ],
+      "depends_on": ["p1.values.v1"],
+      "working_manual_entry": {
+        "date": "2026-04-23",
+        "heading": "CLAUDE.md Generator Shipped"
+      },
+      "tags": ["consumption", "load-bearing"]
+    },
+    {
+      "id": "p2.consumption.brand-supabase-sync",
+      "phase": "p2",
+      "label": "Brand Supabase Sync",
+      "status": "shipped",
+      "description": "Reads brand files, resolves via Python resolver, upserts into brand_definitions table; populates brand_resolved Supabase view that production QWR reads via PostgREST. 5 rows seeded; production runtime.",
+      "why": "Brand data goes from filesystem authoring to live production consumption via one sync command. Without this bridge, brand changes require manual SQL or code edits in each consuming app. The sync script is the first p2 consumption pattern that future schemas (values, voice, universe) will mirror.",
+      "timestamps": { "shipped_at": "2026-04-17" },
+      "files": [
+        { "path": "005 Operations/Execution/sync_brand_definitions.py", "kind": "script", "description": "Reads + resolves + upserts. Handles v2.3 SchemaVersion oneOf union (semver string + legacy integer)." }
+      ],
+      "depends_on": ["p1.brand.v2-x"],
+      "changelog": [
+        { "date": "2026-04-17", "change": "Initial ship with v2.2 schema.", "author": "TIG + Claude" },
+        { "date": "2026-04-23", "change": "Updated for v2.3 SchemaVersion projection into Supabase INT column.", "author": "TIG + Claude" }
+      ],
+      "tags": ["consumption", "production"]
+    },
+    {
+      "id": "p2.consumption.qwb-conversion-pipeline",
+      "phase": "p2",
+      "label": "QWB Conversion Pipeline",
+      "status": "shipped",
+      "description": "4-stage lifecycle pipeline that migrates supporter sites to the QWF stack: scrape + parse + convert + deploy. Deterministic renderers (48+), asset registry, sandbox parity checks, lint gate, sign-off checklist. No LLM in the conversion path (Session 249 proved LLM leaks trust).",
+      "why": "site.v1 is schema; the QWB pipeline is what consumes it to produce live sites. Proven on a supporter brand migration 2026-04-21 with Lighthouse scores verified. The pipeline is QWB's execution plane of the three-plane architecture.",
+      "timestamps": { "shipped_at": "2026-04-21" },
+      "files": [
+        { "path": "005 Operations/Execution/page_json_to_astro.py", "kind": "script", "description": "73KB converter with 48+ deterministic renderers keyed by (primitive, variant)." },
+        { "path": "005 Operations/Execution/scaffold_supporter_site.py", "kind": "script", "description": "v1.2.0 scaffolder, 40KB." },
+        { "path": "005 Operations/Execution/rebuild_page_from_production.py", "kind": "script", "description": "v1.0.0 single-command orchestrator." },
+        { "path": "005 Operations/Execution/check_sandbox_parity.py", "kind": "script", "description": "9-check Playwright audit." },
+        { "path": "005 Operations/Execution/dry_run_converter_against_greencal.py", "kind": "script", "description": "18KB dry-run harness (internal, named for the supporter brand it was prototyped against)." },
+        { "path": "005 Operations/Directives/site_replication_pipeline.md", "kind": "directive", "description": "Pipeline governance SOP." }
+      ],
+      "depends_on": ["p1.site.v1", "p1.brand.v2-x"],
+      "tags": ["consumption", "production", "supporter-sensitive"]
+    },
+    {
+      "id": "p2.consumption.site-validator",
+      "phase": "p2",
+      "label": "site.v1 Validator",
+      "status": "planned",
+      "description": "Dedicated validator for site.v1 instances. Structural (jsonschema), cross-reference (brand_ref resolves, primitive+variant combos exist in PRIMITIVE_INVENTORY), content (forbidden-vocab lint against resolved brand values), pattern-parity with lint_sandbox.mjs's 5 checks.",
+      "why": "Site.v1 ships without a dedicated validator; today's lint_sandbox.mjs is JS-side and covers a subset. A Python validator following the validate_values.py / validate_brand.py pattern closes the gap and unblocks safer supporter-site authoring.",
+      "depends_on": ["p1.site.v1"],
+      "parallel_safe_with": ["p2.consumption.typescript-resolver"],
+      "tags": ["consumption"]
+    },
+    {
+      "id": "p2.consumption.typescript-resolver",
+      "phase": "p2",
+      "label": "TypeScript Resolver Client",
+      "status": "planned",
+      "description": "TypeScript reimplementation of the Python resolvers (brand, values, voice, universe, content) as a client library SvelteKit apps import and hydrate. Mirrors the merge-policy + cascade-policy behavior so client-side resolution matches server-side.",
+      "why": "Apps currently read pre-resolved JSON via HTTP (Supabase view). Client-side resolution enables faster iteration in supporter-site UIs, live preview of brand edits in QOP, and offline development. Not blocking for today but foundational for Phase 3 editors.",
+      "depends_on": ["p1.brand.v2-x", "p1.values.v1"],
+      "parallel_safe_with": ["p2.consumption.site-validator"],
+      "tags": ["consumption", "typescript"]
+    },
+    {
+      "id": "p2.consumption.n8n-workflow-reader",
+      "phase": "p2",
+      "label": "n8n Workflow Canonical Reader",
+      "status": "planned",
+      "description": "Reads automations.v1 instance and generates n8n workflow env-var configs, trigger schedules, and HQ alert webhooks declaratively. Bridges the gap between the automations registry and the running n8n server.",
+      "why": "Today's n8n workflows are authored directly in the UI (or imported as JSON) with divergent conventions. A canonical reader lets automations.v1 be the source of truth; n8n server sync becomes deterministic rather than tribal.",
+      "depends_on": ["p1.automations.v1"],
+      "tags": ["consumption"]
+    },
+    {
+      "id": "p3.qop.app-shell",
+      "phase": "p3",
+      "label": "QOP App Shell",
+      "status": "planned",
+      "description": "SvelteKit scaffold for the Control plane. Auth (QWF Passport), routing, layout, dark-mode-default theme, Supabase client, Pacific timezone utility, nav structure for 14 schema editors. Foundational shell that every QOP editor lives inside.",
+      "why": "Every Phase 3 editor lives in this shell. Without it, each editor would reimplement auth, routing, theme, and state management. Shipping the shell first is the force multiplier for the rest of Phase 3.",
+      "depends_on": ["p1.values.v1", "p1.passport.v1"],
+      "tags": ["qop", "foundational"]
+    },
+    {
+      "id": "p3.qop.values-editor",
+      "phase": "p3",
+      "label": "Values Editor",
+      "status": "spec-only",
+      "description": "First QOP page. Edits values.json via sliders, forms, version control, 'test your policy' fixture runner, cascade visualization, audit log. 12-section buildable spec covers information architecture, 5 UX flows (with auto-save-and-resume on Flow A), per-JSON-path UI element catalog, full CLAUDE.md generation template, Postgres DDL for version history.",
+      "why": "Values-editor is the proof of concept for the entire Phase 3 pattern. Every other schema editor inherits its patterns: per-path UI element catalog, version history, variant forking, audit log, test-your-policy. Ship this right and the rest of p3 becomes a template-application exercise.",
+      "files": [
+        { "path": "002 Projects/_QOP Quietly Operating/Values-Editor-Spec-v1.md", "kind": "spec", "description": "758-line buildable spec shipped 2026-04-22 during values.v1 session." }
+      ],
+      "depends_on": ["p3.qop.app-shell", "p1.values.v1"],
+      "tags": ["qop", "milestone-b-gate"]
+    },
+    {
+      "id": "p3.qop.voice-editor",
+      "phase": "p3",
+      "label": "Voice Editor",
+      "status": "planned",
+      "description": "Edits voice.json instances. Personality, tone, vocabulary, signatures, emoji palette, principles, samples, red flags. Per-audience variants. Voice-test feature (paste text, see flags).",
+      "why": "Voice is one of the most A/B-testable schemas. Supporter voice profiles need per-audience variants (donor vs press vs staff). Editor enables surgical voice tuning without touching brand.",
+      "depends_on": ["p3.qop.app-shell", "p1.voice.v1"],
+      "parallel_safe_with": ["p3.qop.brand-editor", "p3.qop.content-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.brand-editor",
+      "phase": "p3",
+      "label": "Brand Editor",
+      "status": "planned",
+      "description": "Edits brand.json instances. 30 sections (identity, heritage, audience, offerings, methodologies, messaging, visual, motion, audio, assets, components, presence, relationships, operations, credentials, suppliers, guarantees, proof, policies, legal, financial, tech, measurement, competitive, calendar, inheritance). Visual design tokens, color pickers, logo upload, etc.",
+      "why": "Brand is the broadest schema. Editor surfaces all 30 sections with appropriate UI controls per JSON path. The visual tokens sub-section is the highest-leverage surface (color changes ripple to CSS custom properties across every QWF app).",
+      "depends_on": ["p3.qop.app-shell", "p1.brand.v2-x"],
+      "parallel_safe_with": ["p3.qop.voice-editor", "p3.qop.content-editor"],
+      "tags": ["qop", "broad-scope"]
+    },
+    {
+      "id": "p3.qop.site-editor",
+      "phase": "p3",
+      "label": "Site Editor (Composition)",
+      "status": "planned",
+      "description": "Edits site.json instances. Page composition from the 22 primitives, per-variant configuration, asset reference management, preview pane. Supporter-facing chat interface eventually (supporters edit sites conversationally via QWB).",
+      "why": "Site-editor is the bridge between authoring structure (JSON) and supporter-facing composition (chat). Ship the structured editor first; the chat layer can be a later enhancement that calls the same underlying write path.",
+      "depends_on": ["p3.qop.app-shell", "p1.site.v1"],
+      "parallel_safe_with": ["p3.qop.voice-editor", "p3.qop.brand-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.universe-editor",
+      "phase": "p3",
+      "label": "Universe Editor",
+      "status": "planned",
+      "description": "Edits universe.json instance. App family tree, visibility rules, cross-app relationships, ecosystem widget driver config.",
+      "why": "Universe edits cascade to the ecosystem landing section on 8+ apps. Having this as a surgical editor (rather than a code PR) means TIG can rearrange the ecosystem widget without a deploy cycle.",
+      "depends_on": ["p3.qop.app-shell", "p1.universe.v1"],
+      "parallel_safe_with": ["p3.qop.interconnect-editor", "p3.qop.tools-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.interconnect-editor",
+      "phase": "p3",
+      "label": "Interconnect Editor",
+      "status": "planned",
+      "description": "Edits interconnect.json. Link graph, reader journeys, canonical-article cross-references, auto-link enforcement rules.",
+      "why": "Reader-journey design is a distinct craft from brand or voice. Interconnect editor surfaces the graph visually (graph-editor UX) rather than as hand-edited JSON.",
+      "depends_on": ["p3.qop.app-shell", "p1.interconnect.v1"],
+      "parallel_safe_with": ["p3.qop.universe-editor", "p3.qop.tools-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.content-editor",
+      "phase": "p3",
+      "label": "Content Editor",
+      "status": "planned",
+      "description": "Edits content.json. Article DNA, section templates, per-audience variants, forbidden-vocab enforcement, JSON-LD defaults. Integrates with the writer workflow so agents read content.json before drafting.",
+      "why": "Content.json governs the voice-over-brand authoring layer. Editor unblocks structured variant forking per audience (transparency vs chaplaintig vs in-app copy) without code changes.",
+      "depends_on": ["p3.qop.app-shell", "p1.content.v1"],
+      "parallel_safe_with": ["p3.qop.voice-editor", "p3.qop.brand-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.tools-editor",
+      "phase": "p3",
+      "label": "Tools Editor",
+      "status": "planned",
+      "description": "Edits tools.json. Tool inventory plus TWL pointers, per-tool wisdom tags, vendor intelligence.",
+      "why": "The TWL table currently lives in CLAUDE.md as manually-maintained Markdown. Tools editor unblocks declarative authoring plus auto-regeneration of the CLAUDE.md TWL block.",
+      "depends_on": ["p3.qop.app-shell", "p1.tools.v1"],
+      "parallel_safe_with": ["p3.qop.wisdom-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.wisdom-editor",
+      "phase": "p3",
+      "label": "Wisdom Editor",
+      "status": "planned",
+      "description": "Edits wisdom.json instances. Cross-cuts values.json sources[], brand.heritage, content.json, and the existing wisdom.db. Add + edit + cross-link wisdom entries; tag by tool, domain, and compass line.",
+      "why": "Wisdom = fuel per the compass. Authoring wisdom entries currently happens in scattered memory files, TWLs, and the wisdom.db. A unified editor makes wisdom a first-class product surface rather than tribal knowledge.",
+      "depends_on": ["p3.qop.app-shell", "p1.wisdom.v1"],
+      "parallel_safe_with": ["p3.qop.tools-editor"],
+      "tags": ["qop", "compass:fuel"]
+    },
+    {
+      "id": "p3.qop.people-editor",
+      "phase": "p3",
+      "label": "People Editor",
+      "status": "planned",
+      "description": "Edits people.json. Org structure, roles, credentials, leadership, team boundaries. Enforces youth-protection standard (no PII pre-employment surfaces).",
+      "why": "People are the #1 priority. Editor surfaces a humane UX for org structure that honors youth-protection constraints by default (PII gated, consent-logged, public surfaces scrub youth identifiers).",
+      "depends_on": ["p3.qop.app-shell", "p1.people.v1"],
+      "tags": ["qop", "youth-protection-sensitive"]
+    },
+    {
+      "id": "p3.qop.automations-editor",
+      "phase": "p3",
+      "label": "Automations Editor",
+      "status": "planned",
+      "description": "Edits automations.v1 instance. Per-script purpose, inputs, outputs, side effects, triggers, owners, on-failure runbooks. Links into the n8n workflow reader.",
+      "why": "Today's 26+ Python scripts and 26+ n8n workflows are authored in their own silos. Automations editor surfaces a unified registry with dependency graph (which script feeds which workflow, which workflow emails which audience).",
+      "depends_on": ["p3.qop.app-shell", "p1.automations.v1"],
+      "parallel_safe_with": ["p3.qop.metrics-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.metrics-editor",
+      "phase": "p3",
+      "label": "Metrics Editor",
+      "status": "planned",
+      "description": "Edits metrics.v1 instance. KPIs, dashboard declarations, alert thresholds, per-VOSPA-layer health signals. Integrates with the A/B harness metric-capture surface in p4.",
+      "why": "Dashboards in QSP are currently authored as React components. Metrics editor moves dashboard authoring into JSON, lets supporters customize their own dashboards, and unblocks cross-supporter metric comparison.",
+      "depends_on": ["p3.qop.app-shell", "p1.metrics.v1"],
+      "parallel_safe_with": ["p3.qop.automations-editor"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.passport-editor",
+      "phase": "p3",
+      "label": "Passport Editor",
+      "status": "planned",
+      "description": "Edits passport.v1 instance. Cross-app auth scopes, trust levels, redirect URLs, session lifetime, trusted-app registry.",
+      "why": "Passport config changes today require code PRs. Editor unblocks declarative trust-graph edits for onboarding new apps (including supporter apps).",
+      "depends_on": ["p3.qop.app-shell", "p1.passport.v1"],
+      "tags": ["qop"]
+    },
+    {
+      "id": "p3.qop.development-map-editor",
+      "phase": "p3",
+      "label": "Development Map Editor",
+      "status": "planned",
+      "description": "Edits QOS.development-map.json via UI. Add nodes, transition status, annotate dependencies, set parallel-safe relationships, preview ASCII + HTML render in the same session. Uses the same toggle script as CLI but via form UI.",
+      "why": "Authoring nodes in JSON by hand is fine for an agent session; it's friction for human authoring at pace. Editor surfaces the author flow to anyone who holds the map open, including future working founders collaborating on the journey.",
+      "depends_on": ["p3.qop.app-shell", "p1.qos.development-map"],
+      "tags": ["qop", "self-reference"]
+    },
+
+    {
+      "id": "p4.testing.ab-harness",
+      "phase": "p4",
+      "label": "A/B Test Harness",
+      "status": "planned",
+      "description": "Variant routing + metric capture + statistical significance gates. Traffic splits per variant JSON, cookie-based sticky assignment, engagement metric logging (conversion, time-on-page, scroll depth), sig-testing before winner declaration.",
+      "why": "Without a harness, A/B testing stays hypothetical. The schemas already model variant-forking (values.v1 and brand.v2.3 both anticipate it); the harness is what makes the science actually run.",
+      "depends_on": ["p1.values.v1", "p1.brand.v2-x", "p1.metrics.v1"],
+      "tags": ["testing"]
+    },
+    {
+      "id": "p4.testing.winner-promotion",
+      "phase": "p4",
+      "label": "Winner Promotion (Auto-Merge + Review)",
+      "status": "planned",
+      "description": "When a variant wins, auto-generate a PR (or QOP draft change) that merges it back to the canonical schema instance. Human-in-the-loop approval before the merge commits. Audit trail of who promoted which variant when and why.",
+      "why": "Auto-promotion without human review would let a winning-on-metric variant erode brand or values consistency. Review gate preserves human judgment on 'metric beats X but at what cost.'",
+      "depends_on": ["p4.testing.ab-harness"],
+      "tags": ["testing"]
+    },
+
+    {
+      "id": "p5.open-standard.landing",
+      "phase": "p5",
+      "label": "quietlyos.org Landing Page",
+      "status": "shipped",
+      "description": "SvelteKit + Svelte 5 runes landing at quietlyos.org. Scroll-driven narrative... Hero, Problem, Vision, VOSPA Origin, Three Planes, Working Manual, Reference Implementation, Ecosystem, Signup, Footer. Deployed on Cloudflare Pages. Canonical quietlyos.org; .com and www.* hosts 301 to canonical via hooks.server.ts.",
+      "why": "Public landing is where QOS announces itself as a standard rather than an internal tool. Also surfaced three CF Workers + SvelteKit gotchas that became permanent TWL entries: fire-and-forget cancellation, _middleware.js ignored, prerender bypasses hooks.",
+      "timestamps": { "shipped_at": "2026-04-22" },
+      "files": [
+        { "path": "/home/azureuser/quietly-os/src/routes/+page.svelte", "kind": "app-code", "description": "Landing page composition." },
+        { "path": "/home/azureuser/quietly-os/src/routes/+page.server.ts", "kind": "app-code", "description": "Server load reading WORKING_MANUAL.md via Vite ?raw import." },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/Hero.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/ProblemSection.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/VisionSection.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/VospaOrigin.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/ThreePlanes.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/ReferenceImplementation.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/EcosystemSection.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/SignupForm.svelte", "kind": "app-code" },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/SiteFooter.svelte", "kind": "app-code" }
+      ],
+      "working_manual_entry": {
+        "date": "2026-04-22",
+        "heading": "quietlyos.org Shipped"
+      },
+      "changelog": [
+        { "date": "2026-04-22", "change": "Initial ship: scroll-driven landing, signups stored in dedicated Supabase project, 5 CF Workers + SvelteKit gotchas captured in TWL.", "author": "TIG + Claude" },
+        { "date": "2026-04-23", "change": "Copy update: three planes reframed as the standard, not the product (QOS is a standard; QWF apps are one reference implementation).", "author": "TIG + Claude" }
+      ],
+      "tags": ["open-standard", "production"]
+    },
+    {
+      "id": "p5.open-standard.working-manual",
+      "phase": "p5",
+      "label": "Working Manual Build Log",
+      "status": "shipped",
+      "description": "Live build log on quietlyos.org. Session-by-session entries authored in WORKING_MANUAL.md, parsed at build time into structured ManualEntry objects, rendered as a scroll-driven timeline. New entries get appended during /session-wrap-up in the QWU backoffice.",
+      "why": "Public transparency in practice. Not a roadmap (aspirational); a build log (factual). What shipped, when, and what was real. Supports the open-standard framing by showing adopters how QWF itself uses QOS.",
+      "timestamps": { "shipped_at": "2026-04-22" },
+      "files": [
+        { "path": "/home/azureuser/quietly-os/WORKING_MANUAL.md", "kind": "working-manual", "description": "Live build log; entries appended at session wrap-up." },
+        { "path": "/home/azureuser/quietly-os/src/lib/working-manual.ts", "kind": "app-code", "description": "parseWorkingManual() parser. Date-separator supports ellipsis (per the em-dash scrub) and colon fallback." },
+        { "path": "/home/azureuser/quietly-os/src/lib/components/WorkingManual.svelte", "kind": "app-code", "description": "Timeline UI with Pacific-date formatting." }
+      ],
+      "working_manual_entry": {
+        "date": "2026-04-22",
+        "heading": "quietlyos.org Shipped"
+      },
+      "tags": ["open-standard", "production", "self-reference"]
+    },
+    {
+      "id": "p5.open-standard.license",
+      "phase": "p5",
+      "label": "QOS License Finalization",
+      "status": "planned",
+      "description": "Finalize open-source license for every QOS schema (currently '[pending governance]'). Candidates: CC-BY-SA, Apache-2.0, BSL, custom QWF steward license. Update meta.license across all schema files and instances.",
+      "why": "Without a finalized license, QOS schemas are technically public-ready but legally ambiguous. A finalized license unblocks external adoption, governance handoff for post-TIG stewardship, and proper Schema.org-grade public positioning.",
+      "tags": ["open-standard", "governance", "blocks-open-publication"]
+    },
+    {
+      "id": "p5.open-standard.schema-gallery",
+      "phase": "p5",
+      "label": "Schema Gallery",
+      "status": "planned",
+      "description": "Public gallery page rendering every QOS schema with description, examples, $defs breakdown, downstream consumers, and code snippets. Like Schema.org's type reference but scoped to organizational identity.",
+      "why": "Adopters need to see the schemas, not just read that they exist. Gallery is the canonical public reference and the main adoption funnel.",
+      "depends_on": ["p5.open-standard.license"],
+      "tags": ["open-standard", "adoption"]
+    },
+    {
+      "id": "p5.open-standard.docs-site",
+      "phase": "p5",
+      "label": "QOS Documentation Site",
+      "status": "planned",
+      "description": "Starlight-based documentation site (or equivalent) covering getting-started, schema reference, governance, case studies, RFC template. Likely subdomain docs.quietlyos.org.",
+      "why": "Landing page tells visitors why QOS exists. Docs site teaches them how to use it. Both are required for open-standard adoption.",
+      "depends_on": ["p5.open-standard.license", "p5.open-standard.schema-gallery"],
+      "tags": ["open-standard", "adoption"]
+    },
+    {
+      "id": "p5.open-standard.governance-model",
+      "phase": "p5",
+      "label": "QOS Governance Model",
+      "status": "planned",
+      "description": "Formal RFC process, contribution guidelines, steward selection, versioning policy, deprecation policy, dispute resolution. Document + repo structure + governance body.",
+      "why": "Governance turns QOS from 'TIG's project' into a genuine standard that survives founder departure. Required for long-term durability and Schema.org-grade credibility.",
+      "depends_on": ["p5.open-standard.license"],
+      "tags": ["open-standard", "governance", "post-founder-durability"]
+    }
+  ],
+  "milestones": [
+    {
+      "id": "A",
+      "label": "Schema Layer Complete",
+      "description": "Every p1 node is shipped (all 14 schemas, instances, and their primary validators/resolvers). Retrofit-needed does NOT count; explicit drift means the milestone is not yet achieved.",
+      "computed_from": {
+        "phase_ids": ["p1"],
+        "required_statuses": ["shipped"]
+      }
+    },
+    {
+      "id": "B",
+      "label": "Schema Layer + Values Editor Shipped",
+      "description": "Milestone A achieved AND the Values Editor shipped. Values-editor is the proof-of-concept for Phase 3 and the gate to making QOS truly UI-editable.",
+      "computed_from": {
+        "phase_ids": ["p1"],
+        "required_statuses": ["shipped"],
+        "required_node_ids": ["p3.qop.values-editor"]
+      }
+    },
+    {
+      "id": "C",
+      "label": "Full Option C",
+      "description": "Every node across p1 through p5 is shipped. Origin (p0) nodes are already shipped by definition. Retrofit-needed is explicit drift and does NOT count toward completion. QOS is a true open standard with edit UI, testing harness, governance, license, and docs.",
+      "computed_from": {
+        "phase_ids": ["p1", "p2", "p3", "p4", "p5"],
+        "required_statuses": ["shipped"]
+      }
+    }
+  ]
+}

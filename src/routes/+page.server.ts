@@ -1,4 +1,5 @@
 import { parseWorkingManual } from '$lib/working-manual';
+import { prepareMap, type DevMapRaw } from '$lib/development-map';
 import type { PageServerLoad } from './$types';
 
 // Intentionally NOT prerendered: prerendered HTML is served directly from CF's
@@ -12,6 +13,12 @@ import type { PageServerLoad } from './$types';
 import workingManualRaw from '../../WORKING_MANUAL.md?raw';
 const entries = parseWorkingManual(workingManualRaw);
 
+// QOS.development-map.json is imported as a JSON module (Vite treats it as
+// structured data, no ?raw needed). prepareMap() runs the supporter-anonymity
+// sweep + em-dash scrub at build time so the client receives already-safe data.
+import devMapJson from '../../QOS.development-map.json';
+const devMap = prepareMap(devMapJson as unknown as DevMapRaw);
+
 export const load: PageServerLoad = async () => {
-	return { entries };
+	return { entries, devMap };
 };
