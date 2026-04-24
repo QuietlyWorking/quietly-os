@@ -39,6 +39,11 @@
         "date": "2026-04-23",
         "change": "Toggled p1.wisdom.v1: in-flight -> planned",
         "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-23",
+        "change": "Toggled p1.qos.development-map: in-flight -> shipped",
+        "author": "toggle_development_map_node.py"
       }
     ]
   },
@@ -424,42 +429,53 @@
       "id": "p1.qos.development-map",
       "phase": "p1",
       "label": "QOS Development Map (Schema + Instance + Tooling + Integration + Public Render)",
-      "status": "in-flight",
+      "status": "shipped",
       "description": "The QOS Development Map as a whole QOS-under-QOS artifact. Schema (Checkpoint 1), instance (Checkpoint 2), tooling render + validate + toggle (Checkpoint 3), session-wrap-up skill integration and quietlyos.org public render (Checkpoint 4). Transitions to shipped only when every piece is load-bearing. The map passes its own drift check from day one.",
       "why": "Tracked as a single node because the map's value is end-to-end... schema alone cannot auto-update, instance alone cannot render, tooling alone cannot anonymize. Claiming the node as shipped before Checkpoint 4 completes would violate eat-your-own-dog-food discipline. The unified node is the only honest tracking shape for a cross-cutting artifact.",
       "timestamps": {
-        "in_flight_since": "2026-04-23T14:45:00-07:00"
+        "in_flight_since": "2026-04-23T14:45:00-07:00",
+        "shipped_at": "2026-04-23"
       },
       "files": [
         {
           "path": "005 Operations/Standards/roadmap/qos_development_map.v1.schema.json",
-          "kind": "schema",
-          "description": "Schema drafted in Checkpoint 1 (commit f2ce9c51d)."
+          "kind": "schema"
         },
         {
           "path": "005 Operations/Standards/roadmap/QOS.development-map.json",
-          "kind": "instance",
-          "description": "This file. Full 49-node instance authored in Checkpoint 2 (commit 5f4558513)."
+          "kind": "instance"
         },
         {
           "path": "005 Operations/Directives/qos_development_map.md",
-          "kind": "directive",
-          "description": "SOP covering authoring, transitions, drift protocol, version-bump policy, supporter-anonymity, and naming conventions."
+          "kind": "directive"
         },
         {
           "path": "005 Operations/Execution/validate_qos_development_map.py",
-          "kind": "script",
-          "description": "v1.0.0 validator (8 checks). Checkpoint 3."
+          "kind": "script"
         },
         {
           "path": "005 Operations/Execution/toggle_development_map_node.py",
-          "kind": "script",
-          "description": "v1.0.0 toggle CLI + importable. Calls validator internally before writing. Checkpoint 3."
+          "kind": "script"
         },
         {
           "path": "005 Operations/Execution/render_qos_development_map.py",
-          "kind": "script",
-          "description": "v1.0.0 render ASCII + HTML with supporter-anonymity sweep. Checkpoint 3."
+          "kind": "script"
+        },
+        {
+          "path": ".claude/skills/session-wrap-up/SKILL.md",
+          "kind": "directive"
+        },
+        {
+          "path": "/home/azureuser/quietly-os/QOS.development-map.json",
+          "kind": "instance"
+        },
+        {
+          "path": "/home/azureuser/quietly-os/src/lib/development-map.ts",
+          "kind": "app-code"
+        },
+        {
+          "path": "/home/azureuser/quietly-os/src/lib/components/DevelopmentMap.svelte",
+          "kind": "app-code"
         }
       ],
       "tags": [
@@ -469,7 +485,11 @@
         "in-flight",
         "load-bearing"
       ],
-      "notes": "Remaining work before shipped: (1) session-wrap-up SKILL.md additive edit, (2) quietlyos.org DevelopmentMap.svelte public render with sweep, (3) end-to-end verification per the Checkpoint 4 plan."
+      "notes": "Remaining work before shipped: (1) session-wrap-up SKILL.md additive edit, (2) quietlyos.org DevelopmentMap.svelte public render with sweep, (3) end-to-end verification per the Checkpoint 4 plan.",
+      "working_manual_entry": {
+        "date": "2026-04-23",
+        "heading": "QOS Development Map Shipped"
+      }
     },
     {
       "id": "p1.voice.v1",
