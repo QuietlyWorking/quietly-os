@@ -1343,8 +1343,8 @@
     },
     {
       "id": "C",
-      "label": "Full Option C",
-      "description": "Every node across p1 through p5 is shipped. Origin (p0) nodes are already shipped by definition. Retrofit-needed is explicit drift and does NOT count toward completion. QOS is a true open standard with edit UI, testing harness, governance, license, and docs.",
+      "label": "QOS v1 Complete",
+      "description": "Every node across Schema Layer, Consumption Layer, QOP Edit UI, Testing Layer, and Open Standard is shipped. Origin (p0) nodes are already shipped by definition. Retrofit-needed is explicit drift and does NOT count toward completion. At this milestone QOS is a true open standard: every schema public, every editor live, the A/B testing harness operational, the governance model in effect, and the license finalized.",
       "computed_from": {
         "phase_ids": [
           "p1",
