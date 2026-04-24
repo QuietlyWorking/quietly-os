@@ -39,6 +39,11 @@
 							Missing Pixel
 						</a>
 					</li>
+					<li>
+						<a class="text-foreground/90 hover:text-foreground" href="https://chaplaintig.com" target="_blank" rel="noopener noreferrer">
+							chaplaintig.com
+						</a>
+					</li>
 				</ul>
 			</div>
 

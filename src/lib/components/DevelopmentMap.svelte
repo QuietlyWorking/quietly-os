@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { RenderableMap } from '$lib/development-map';
+	import { linkifyTIG } from '$lib/linkify';
 
 	let { map }: { map: RenderableMap } = $props();
 
@@ -48,7 +49,7 @@
 						{#each map.summary.inFlight as n (n.id)}
 							<li>
 								<code class="font-mono text-sm text-foreground">{n.id}</code>
-								... {n.label}
+								... {@html linkifyTIG(n.label)}
 								{#if n.timestamps?.in_flight_since}
 									<span class="text-xs">(since {shortSince(n.timestamps.in_flight_since)})</span>
 								{/if}
@@ -66,7 +67,7 @@
 						{#each map.summary.specOnly as n (n.id)}
 							<li>
 								<code class="font-mono text-sm text-foreground">{n.id}</code>
-								... {n.label}
+								... {@html linkifyTIG(n.label)}
 							</li>
 						{/each}
 					</ul>
@@ -114,7 +115,7 @@
 							({phase.shipped}/{phase.total})
 						</span>
 					</h3>
-					<p class="mt-2 max-w-2xl text-sm text-muted-foreground">{phase.description}</p>
+					<p class="mt-2 max-w-2xl text-sm text-muted-foreground">{@html linkifyTIG(phase.description)}</p>
 					<ul class="mt-4 space-y-3">
 						{#each phase.nodes as n (n.id)}
 							<li class="flex items-start gap-3 rounded-sm border border-border/40 bg-card/10 p-3">
@@ -124,10 +125,10 @@
 								<div class="min-w-0 flex-1">
 									<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
 										<code class="font-mono text-xs text-foreground">{n.id}</code>
-										<span class="text-sm font-medium text-foreground">{n.label}</span>
+										<span class="text-sm font-medium text-foreground">{@html linkifyTIG(n.label)}</span>
 									</div>
 									<p class="mt-1 text-sm leading-relaxed text-muted-foreground">
-										{n.description}
+										{@html linkifyTIG(n.description)}
 									</p>
 									{#if n.depends_on && n.depends_on.length > 0}
 										<p class="mt-1 text-xs text-muted-foreground">

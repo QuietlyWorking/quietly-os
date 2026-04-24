@@ -10,7 +10,12 @@
 				QOS isn't theory. It's 30 years of consulting methodology being programmatized.
 			</p>
 			<p>
-				VOSPA... Values, Organization, Story, People, Automation... is the framework Chaplain TIG
+				VOSPA... Values, Organization, Story, People, Automation... is the framework <a
+					href="https://chaplaintig.com"
+					class="text-foreground underline decoration-accent/50 underline-offset-2 hover:decoration-accent"
+					rel="noopener noreferrer"
+					target="_blank">Chaplain TIG</a
+				>
 				has delivered as premium consulting ($10K+/month) for three decades. Every layer refined on
 				Fortune 100 clients and Mom-and-Pop shops. Every mistake paid for.
 			</p>

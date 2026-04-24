@@ -60,7 +60,12 @@
 						"It unlocks the full power of agentic superpowers... while fully retaining and
 						locking-in the absolutes."
 						<cite class="mt-2 block font-sans text-xs not-italic text-muted-foreground/70">
-							TIG, framing QOS
+							<a
+								href="https://chaplaintig.com"
+								class="text-foreground underline decoration-accent/50 underline-offset-2 hover:decoration-accent"
+								rel="noopener noreferrer"
+								target="_blank">TIG</a
+							>, framing QOS
 						</cite>
 					</blockquote>
 				</div>

@@ -7,6 +7,11 @@
 // as fallback since titles often contain colons ("Phase 1: Values Shipped").
 //
 // Called from src/routes/+page.server.ts so entries render at build time.
+//
+// Inline rendering also linkifies "TIG" / "Chaplain TIG" mentions to
+// chaplaintig.com so visitors can dive deeper on who built this.
+
+import { linkifyTIGPostEscape } from './linkify';
 
 export interface ManualEntry {
 	date: string; // YYYY-MM-DD
@@ -61,11 +66,14 @@ function renderBody(md: string): string {
 }
 
 function inline(text: string): string {
-	return text
+	const withMarkup = text
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;')
 		.replace(/`([^`]+)`/g, '<code class="font-mono text-xs bg-muted px-1.5 py-0.5 rounded text-foreground">$1</code>')
 		.replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground">$1</strong>')
 		.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+	// Linkify TIG mentions last so they can nest inside any of the markup
+	// transforms above (e.g., a bolded TIG stays bolded and becomes a link).
+	return linkifyTIGPostEscape(withMarkup);
 }

@@ -131,7 +131,13 @@
 					<div>
 						<div class="font-serif text-xl text-foreground">You're on the list.</div>
 						<p class="mt-2 text-sm text-muted-foreground">
-							TIG personally sees every signup. When the next phase ships, you'll know. Thanks for
+							<a
+								href="https://chaplaintig.com"
+								class="text-foreground underline decoration-accent/50 underline-offset-2 hover:decoration-accent"
+								rel="noopener noreferrer"
+								target="_blank">TIG</a
+							>
+							personally sees every signup. When the next phase ships, you'll know. Thanks for
 							paying attention... it means more than you realize.
 						</p>
 					</div>
@@ -141,7 +147,13 @@
 
 		<p class="mt-10 border-t border-border/50 pt-6 text-xs text-muted-foreground">
 			<strong class="font-medium text-foreground">Private by default.</strong> We route these to
-			TIG personally. No team cc. No marketing automation. You get updates when there's real news.
+			<a
+				href="https://chaplaintig.com"
+				class="text-foreground underline decoration-accent/50 underline-offset-2 hover:decoration-accent"
+				rel="noopener noreferrer"
+				target="_blank">TIG</a
+			>
+			personally. No team cc. No marketing automation. You get updates when there's real news.
 		</p>
 	</div>
 </section>
