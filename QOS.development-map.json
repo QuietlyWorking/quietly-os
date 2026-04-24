@@ -34,6 +34,11 @@
         "date": "2026-04-23",
         "change": "Toggled p1.wisdom.v1: planned -> in-flight",
         "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-23",
+        "change": "Toggled p1.wisdom.v1: in-flight -> planned",
+        "author": "toggle_development_map_node.py"
       }
     ]
   },
@@ -556,7 +561,7 @@
       "id": "p1.wisdom.v1",
       "phase": "p1",
       "label": "wisdom.v1 Schema + Instance",
-      "status": "in-flight",
+      "status": "planned",
       "description": "Wisdom registry schema. Open question on storage mode: inline in schema instances, DB-registry (the existing wisdom.db), or hybrid. values.v1 uses the hybrid pattern (inline why + optional sources[] pointing at vault paths or wisdom ids); wisdom.v1 formalizes the registry side.",
       "why": "Wisdom is the cross-cutting infrastructure layer per the compass (Wisdom = fuel). Without a schema, wisdom entries live in ad-hoc memory files, directive sidebars, and the existing wisdom.db without cross-references to schema instances. Locking the storage mode unblocks tool-wisdom query APIs and QSP surfaces.",
       "parallel_safe_with": [
@@ -569,7 +574,8 @@
         "open-design-question"
       ],
       "timestamps": {
-        "in_flight_since": "2026-04-23T22:12:04.893996-07:00"
+        "in_flight_since": "2026-04-23T22:12:04.893996-07:00",
+        "planned_at": "2026-04-23T22:13:26.929733-07:00"
       }
     },
     {
