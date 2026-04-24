@@ -41,7 +41,7 @@
 					</li>
 					<li>
 						<a class="text-foreground/90 hover:text-foreground" href="https://chaplaintig.com" target="_blank" rel="noopener noreferrer">
-							chaplaintig.com
+							Chaplain TIG
 						</a>
 					</li>
 				</ul>
