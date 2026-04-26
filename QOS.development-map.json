@@ -353,16 +353,21 @@
       "phase": "p1",
       "label": "brand.v2.x Schema + Instances + Resolver",
       "status": "shipped",
-      "description": "Brand schema family (currently v2.3). 30 top-level sections, JSON Schema Draft 2020-12, merge-policy.json with 124 paths and 10 strategies, Python resolver (8 of 11 strategies), production instances for QWF and QWR plus three supporter-brand roots. v2.3 migrated values-bearing sections out to values.v1 (single source of truth restored).",
-      "why": "Brand is where identity, heritage, audience, voice, visual, messaging, credentials, and policies live. QWR reads brand data live in production. Brand.v2.3 is the first schema to adopt the QOS reference-implementation convention retroactively.",
+      "description": "Brand schema family (currently v2.4). 30 top-level sections, JSON Schema Draft 2020-12, merge-policy.json with 124 paths and 10 strategies, Python resolver (8 of 11 strategies), production instances for QWF and QWR plus three supporter-brand roots. v2.3 migrated values-bearing sections out to values.v1; v2.4 atomically extracted voice into voice.v1 for QWF and QWR (supporter brands retain inline voice with _migrationNote per Sacred Guesthood) and added voiceRef + valuesRef cross-pair pointers.",
+      "why": "Brand is where identity, heritage, audience, voice, visual, messaging, credentials, and policies live. QWR reads brand data live in production. Brand.v2.3 is the first schema to adopt the QOS reference-implementation convention retroactively; v2.4 completes the unbundling pattern (values out at v2.3, voice out at v2.4) so brand becomes one schema among the family rather than the god-object.",
       "timestamps": {
         "shipped_at": "2026-04-23"
       },
       "files": [
         {
+          "path": "005 Operations/Standards/brand/brand.v2.4.schema.json",
+          "kind": "schema",
+          "description": "Current production schema (v2.4)."
+        },
+        {
           "path": "005 Operations/Standards/brand/brand.v2.3.schema.json",
           "kind": "schema",
-          "description": "Current production schema (v2.3)."
+          "description": "Prior production schema (v2.3, superseded by v2.4; retained for migration previews)."
         },
         {
           "path": "005 Operations/Standards/brand/merge-policy.json",
@@ -390,7 +395,8 @@
         },
         {
           "path": "005 Operations/Execution/validate_brand.py",
-          "kind": "script"
+          "kind": "script",
+          "description": "v1.1.0: SCHEMA_DISPATCH (schema-version-agnostic) + structural check + cross-pair check (voiceRef and valuesRef target presence)."
         },
         {
           "path": "005 Operations/Execution/lint_brand.py",
@@ -398,8 +404,8 @@
         }
       ],
       "working_manual_entry": {
-        "date": "2026-04-23",
-        "heading": "brand.v2.3 Refactor Shipped"
+        "date": "2026-04-26",
+        "heading": "brand.v2.4 Voice Extraction + Validator v1.1.0"
       },
       "changelog": [
         {
@@ -411,6 +417,11 @@
           "date": "2026-04-23",
           "change": "v2.3 refactor: 8 values-bearing sections migrated to values.v1; QOS reference-implementation meta adopted; SchemaVersion oneOf union; .brand.resolved.json rename for family alignment.",
           "author": "TIG + Claude"
+        },
+        {
+          "date": "2026-04-26",
+          "change": "v2.4 ship: voice atomically extracted to voice.v1 for QWF and QWR (supporter brands retain inline voice with _migrationNote per Sacred Guesthood); voiceRef + valuesRef cross-pair pointers added; validate_brand.py v1.1.0 (SCHEMA_DISPATCH schema-version-agnostic dispatch plus cross-pair check, both in one entry point per Preference 14 cognitive-load discipline); orthogonal-versioning applied (Preference 12) so supporter brandVersion held while schemaVersion bumped 2.3.0 to 2.4.0; ship recognized via dev-map plus WORKING_MANUAL only per TIG Preference 4 Refinement B (no empty marker commit; existing surfaces already met discoverability).",
+          "author": "TIG + Claude (advisor-as-orchestrator C4 spawn)"
         }
       ],
       "tags": [

@@ -6,6 +6,20 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-04-26... brand.v2.4 Voice Extraction + Validator v1.1.0
+
+Brand schema v2.4 ships. Voice extracts atomically out of `brand` for QWF and QWR; it now lives in voice.v1 where Hemingway-clarity rules belong. Brand keeps identity, heritage, audience, visual, messaging, credentials, and policies; voice owns voice. The unbundling pattern that began with v2.3 (values out) completes at v2.4 (voice out). Brand is no longer the god-object. It is one schema among the family.
+
+- The atomic cutover applies only to QWF and QWR. Three supporter brands (GreenCal, Petersen Legacy Law, Gotham Good Dogs) retain inline voice with a `voice._migrationNote` field per Sacred Guesthood. Each supporter migrates voice into voice.v1 in their own dedicated authoring session, on their schedule, with their consent. We are guests with elevated privileges, not owners.
+- `voiceRef` and `valuesRef` cross-pair pointers join the schema. QWF and QWR brand instances now declare which voice.v1 and values.v1 files they pair with. The validator confirms the targets resolve. Supporters skip silently because their refs are absent... that is correct schema-permitted behavior, not a gap.
+- `validate_brand.py` ships v1.1.0 with two checks in one entry point per the cognitive-load discipline (one validator users learn, two checks it runs). Structural check validates each instance against the matching schema generation. Cross-pair check confirms voiceRef and valuesRef targets exist on disk. The new SCHEMA_DISPATCH lookup table reads `meta.schemaVersion` off the instance and routes to the matching schema file, so the validator now spans v2.2, v2.3, v2.4 and earns its keep across any future v2.x bump without constant edits.
+- Orthogonal versioning applied. QWF and QWR brand files bumped both `schemaVersion` (structural) and `brandVersion` (content changed substantively because voice removal is content motion). Supporter brand files bumped only `schemaVersion`... their content did not change... and held `brandVersion` at original values. Each version field tracks its own concern. Bumping in lockstep is the noisy default; orthogonal is the semantic-accurate one.
+- The ship is recognized via this Working Manual entry plus the dev-map node `p1.brand.v2-x` changelog. No empty marker commit on the qwu_backOffice repo. Discoverability for "where did v2.4 ship?" was already met three times over: the C1/C2/C3 commits are greppable by `brand.v2.4`, the Decision Ledger holds the audit trail, and the dev-map state machine flags the family at v2.4 as canonical. Adding a fourth surface to capture the same answer is the kind of redundant complexity that has to earn its place. It did not.
+
+Phase 1 milestones unchanged in count (brand.v2-x was already shipped; v2.4 is a sub-ship within the v2.x family). The corpus grew though... the C4 review captured the principle test that justified the no-marker path: "is the concern already met by existing surfaces?" not "does the concern matter?" That shape repeats... atomic cutovers over deprecation windows, separate roots over flag fields, no-new-surface over redundant-surface. Resist additions when existing surfaces already capture the concern.
+
+---
+
 ## 2026-04-25... Voice and Universe Schemas Ship in Parallel + First Cross-Schema Rule Relocation
 
 Two QOS schemas landed in a single session: `voice.v1` and `universe.v1`. Phase 1 schema layer moves from 4/14 to 6/14 shipped. Total Option C completion: 17/49 (34%). The session also validated a new collaboration pattern (advisor-as-orchestrator), proved out the first cross-schema rule relocation in QOS history, and refactored the CLAUDE.md generator from single-source to multi-source.
