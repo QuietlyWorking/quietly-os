@@ -4,7 +4,7 @@
     "schemaVersion": 1,
     "mapVersion": "1.1.0",
     "createdAt": "2026-04-23",
-    "updatedAt": "2026-04-23",
+    "updatedAt": "2026-04-25",
     "lastReviewedAt": "2026-04-23",
     "owners": [
       "TIG"
@@ -43,6 +43,26 @@
       {
         "date": "2026-04-23",
         "change": "Toggled p1.qos.development-map: in-flight -> shipped",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-25",
+        "change": "Toggled p1.universe.v1: planned -> in-flight",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-25",
+        "change": "Toggled p1.voice.v1: planned -> in-flight",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-25",
+        "change": "Toggled p1.universe.v1: in-flight -> shipped",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-25",
+        "change": "Toggled p1.voice.v1: in-flight -> shipped",
         "author": "toggle_development_map_node.py"
       }
     ]
@@ -495,7 +515,7 @@
       "id": "p1.voice.v1",
       "phase": "p1",
       "label": "voice.v1 Schema + Instances",
-      "status": "planned",
+      "status": "shipped",
       "description": "Standalone voice schema extracted from brand.voice. Personality, tone, vocabulary, signatures, emoji palette, principles, samples, red flags. First targets: QWR product vocab (amplify / voice / story / ghostwriter) and supporter-brand vocabulary currently living in brand.v2.3 under additionalProperties: true.",
       "why": "Voice deserves its own schema. Multiple QWF programs generate content on behalf of supporters; voice profiles need to version, A/B test, and branch independently of brand identity. Unblocks per-audience voice rendering and the voice-editor QOP page.",
       "depends_on": [
@@ -509,13 +529,59 @@
       "tags": [
         "schema-layer",
         "next-in-queue"
-      ]
+      ],
+      "timestamps": {
+        "in_flight_since": "2026-04-25T20:53:43.505373-07:00",
+        "shipped_at": "2026-04-25"
+      },
+      "files": [
+        {
+          "path": "005 Operations/Standards/voice/voice.v1.schema.json",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Directives/voice_json_standard.md",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Voices/QWF.voice.json",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Voices/QWR.voice.json",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Voices/QWF.voice.resolved.json",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Voices/QWR.voice.resolved.json",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Execution/validate_voice.py",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Execution/resolve_voice.py",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Execution/test_validate_voice_em_dash_exemption.py",
+          "kind": "script"
+        }
+      ],
+      "working_manual_entry": {
+        "date": "2026-04-25",
+        "heading": "voice.v1 Schema Family Shipped + Em-Dash Atomic Cutover"
+      }
     },
     {
       "id": "p1.universe.v1",
       "phase": "p1",
       "label": "universe.v1 Schema + Instance",
-      "status": "planned",
+      "status": "shipped",
       "description": "App family composition schema. Describes QWF's 24 quietly* Cloudflare domains as a single connected ecosystem... app relationships, visibility rules, cross-app redirects, ecosystem widget driver data.",
       "why": "The ecosystem widget is hardcoded in EcosystemOrbitSection.tsx across 8 apps. Making it JSON-driven means new apps auto-appear after domain registration without code changes. Also unblocks the public-facing schema gallery: QOS can describe its own app family declaratively.",
       "parallel_safe_with": [
@@ -525,7 +591,37 @@
       ],
       "tags": [
         "schema-layer"
-      ]
+      ],
+      "timestamps": {
+        "in_flight_since": "2026-04-25T20:53:42.713694-07:00",
+        "shipped_at": "2026-04-25"
+      },
+      "files": [
+        {
+          "path": "005 Operations/Standards/universe/universe.v1.schema.json",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Directives/universe_json_standard.md",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Universes/QWF.universe.json",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Execution/validate_universe.py",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Execution/sync_universe_from_cloudflare.py",
+          "kind": "script"
+        }
+      ],
+      "working_manual_entry": {
+        "date": "2026-04-25",
+        "heading": "universe.v1 Schema Family Shipped"
+      }
     },
     {
       "id": "p1.interconnect.v1",
