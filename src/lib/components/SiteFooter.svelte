@@ -51,6 +51,11 @@
 				<h3 class="mb-4 text-xs font-medium uppercase tracking-widest text-muted-foreground">Standard</h3>
 				<ul class="space-y-2 text-sm">
 					<li>
+						<a class="text-foreground/90 hover:text-foreground" href="https://brain.quietlyos.org" target="_blank" rel="noopener noreferrer">
+							Advisor Brain
+						</a>
+					</li>
+					<li>
 						<a class="text-foreground/90 hover:text-foreground" href="https://github.com/QuietlyWorking/quietly-os" target="_blank" rel="noopener noreferrer">
 							GitHub
 						</a>
