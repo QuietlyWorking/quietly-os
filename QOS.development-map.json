@@ -4,7 +4,7 @@
     "schemaVersion": 1,
     "mapVersion": "1.1.0",
     "createdAt": "2026-04-23",
-    "updatedAt": "2026-04-25",
+    "updatedAt": "2026-04-26",
     "lastReviewedAt": "2026-04-23",
     "owners": [
       "TIG"
@@ -63,6 +63,16 @@
       {
         "date": "2026-04-25",
         "change": "Toggled p1.voice.v1: in-flight -> shipped",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-26",
+        "change": "Toggled p1.content.v1: planned -> in-flight",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-04-26",
+        "change": "Toggled p1.content.v1: in-flight -> shipped",
         "author": "toggle_development_map_node.py"
       }
     ]
@@ -652,7 +662,7 @@
       "id": "p1.content.v1",
       "phase": "p1",
       "label": "content.v1 Schema + Instance",
-      "status": "planned",
+      "status": "shipped",
       "description": "Article DNA schema. Required section structure, per-audience variants, forbidden vocab enforcement, JSON-LD / Open Graph / Twitter Card defaults, canonical-URL rules. Governs transparency.quietlyworking.org, chaplaintig.com, and every in-app content surface.",
       "why": "QWR does not currently emit structured data explicitly. Content.v1 fixes this deterministically: code injects JSON-LD from the schema, never LLM-generated. The same schema drives section-level consistency across every content surface.",
       "depends_on": [
@@ -666,7 +676,45 @@
       "tags": [
         "schema-layer",
         "seo"
-      ]
+      ],
+      "timestamps": {
+        "in_flight_since": "2026-04-26T17:46:13.662123-07:00",
+        "shipped_at": "2026-04-26"
+      },
+      "files": [
+        {
+          "path": "005 Operations/Standards/content/content.v1.schema.json",
+          "kind": "schema"
+        },
+        {
+          "path": "005 Operations/Content/QWF.content.json",
+          "kind": "instance"
+        },
+        {
+          "path": "005 Operations/Content/QWR.content.json",
+          "kind": "instance"
+        },
+        {
+          "path": "005 Operations/Execution/validate_content.py",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Execution/resolve_content.py",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Execution/test_validate_content_em_dash_exemption.py",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Directives/content_json_standard.md",
+          "kind": "directive"
+        }
+      ],
+      "working_manual_entry": {
+        "date": "2026-04-26",
+        "heading": "content.v1 Schema Family + 3-Source CLAUDE.md Generation"
+      }
     },
     {
       "id": "p1.tools.v1",
@@ -774,8 +822,8 @@
       "phase": "p2",
       "label": "CLAUDE.md Generator",
       "status": "shipped",
-      "description": "Reads resolved values.json, renders startup-priority agentContext.claudeMdSections into a managed Markdown block inside CLAUDE.md. Marker block with SHA256 for drift detection, atomic writes, backup to .tmp/, rollback flag, dry-run mode. Eats own dog food: em-dash scrub with stderr drift warnings plus end-of-run substitution count.",
-      "why": "Values.v1 stopped being a spec and started being infrastructure the moment this generator shipped. Every Claude Code session now opens with TIG's compass, hard rules, forbidden vocab, encouraged vocab, decision filters, and ethical boundaries injected structurally, not remembered.",
+      "description": "Reads resolved values.json + voice.json + content.json, renders startup-priority agentContext.claudeMdSections into a single managed Markdown block inside CLAUDE.md. Marker block with composite-SHA plus per-source SHAs for drift attribution, atomic writes, backup to .tmp/, rollback flag, dry-run mode. Eats own dog food: em-dash scrub with stderr drift warnings plus end-of-run substitution count. ABSOLUTE-severity items render as HARD RULE blocks regardless of source. Backward-compat shim allows graceful degradation if any optional source is missing.",
+      "why": "Values.v1 stopped being a spec and started being infrastructure the moment this generator shipped. Every Claude Code session now opens with TIG's compass, hard rules, forbidden vocab, encouraged vocab, decision filters, ethical boundaries, voice principles, voice forbidden patterns, voice signatures, and content forbidden article patterns injected structurally, not remembered. Multi-source registration scales to all remaining QOS schemas without managed-block format churn.",
       "timestamps": {
         "shipped_at": "2026-04-23"
       },
@@ -783,16 +831,40 @@
         {
           "path": "005 Operations/Execution/generate_claude_md_block.py",
           "kind": "script",
-          "description": "v1.1.0 Python CLI plus importable module. No Jinja2. f-strings only."
+          "description": "v1.3.0 Python CLI plus importable module. No Jinja2. f-strings only. Three-source SCHEMA_REGISTRY (values, voice, content). Composite SHA equals sha256(values_sha plus voice_sha plus content_sha)."
         }
       ],
       "depends_on": [
-        "p1.values.v1"
+        "p1.values.v1",
+        "p1.voice.v1",
+        "p1.content.v1"
       ],
       "working_manual_entry": {
-        "date": "2026-04-23",
-        "heading": "CLAUDE.md Generator Shipped"
+        "date": "2026-04-26",
+        "heading": "content.v1 Schema Family + 3-Source CLAUDE.md Generation"
       },
+      "changelog": [
+        {
+          "date": "2026-04-23",
+          "change": "v1.0.0 initial ship (single-source values.v1; managed-block injection; backup; rollback; dry-run; em-dash scrub).",
+          "author": "TIG + Claude"
+        },
+        {
+          "date": "2026-04-23",
+          "change": "v1.1.0 resolver self-handles roots; ensure_resolved wrapper removed; reader is strict and refuses unresolved sources with a pointer to the fix command.",
+          "author": "TIG + Claude"
+        },
+        {
+          "date": "2026-04-25",
+          "change": "v1.2.0 multi-source refactor (values plus voice). Composite SHA composes per-source SHAs in SCHEMA_REGISTRY order. Renderer dispatch keyed on (source, formatTemplate). ABSOLUTE-severity items render as HARD RULE blocks regardless of source. The em-dash forbidden-pattern row migrated atomically from values to voice in the same commit.",
+          "author": "TIG + Claude"
+        },
+        {
+          "date": "2026-04-26",
+          "change": "v1.3.0 third source content.v1 added. Composite SHA expanded to sha256(values_sha plus voice_sha plus content_sha). Three new renderers (article-DNA-block contextual-priority scaffold, forbidden-article-patterns with HARD RULE rendering for 5 ABSOLUTEs per Preference 9 defense-in-depth, encouraged-article-patterns). RULE_MARKER_RENDERERS tuple introduced as clean dispatch for HARD-RULE-needing renderers. Backward-compat shim verified by file-rename test (missing content.resolved gracefully degrades to values plus voice with hash-stable fallback).",
+          "author": "TIG + Claude (advisor-as-orchestrator C4 spawn)"
+        }
+      ],
       "tags": [
         "consumption",
         "load-bearing"
