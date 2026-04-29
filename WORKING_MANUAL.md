@@ -6,6 +6,18 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-04-27... brain.quietlyos.org Sister Surface Launched
+
+The QWF Advisor Brain has its public home. brain.quietlyos.org went live as the sister surface to quietlyos.org... where this site shows WHO QWF is (the schemas), brain.quietlyos.org shows HOW it decides (the choices and the WHY behind each one, captured at the moment of choice). The Brain itself is the operational HOW-layer that complements QOS; the Wisdom Library is a separate artifact handling what the org KNOWS. Three distinct artifacts, one companion architecture.
+
+Phase 0 ships the foundation only: hero with the locked mission-thesis line ("The Brain grows because it gets corrected..."), the three-verdict reinforcement loop table (Approved / Approved+Reinforcement / Redirected+Reinforcement), the OS+Brain architecture diagram, the build map (27 nodes; 7 shipped, 20 planned), honest Phase 2/3 placeholders for the live ledger and trust meters that come later, the open-standard cross-link back here. No live ledger entries yet; the runtime is Phase 2.
+
+Schema reuse: BRAIN.development-map.json validates against the same qos_development_map.v1.schema.json this site uses, with identity differentiation via identity.shortName "BRAIN". No fork in Phase 0. The map renders via build-time bake into the SvelteKit page; sweeps (em-dash scrub, supporter-anonymity, youth-protection framework, hand-applied TIG-personal toggle) all run before the client receives any prose. New repo at github.com/QuietlyWorking/quietly-brain; CF Pages project quietly-brain on Direct Upload mode mirroring this repo's deploy pattern. Four endpoints (canonical brain.quietlyos.org plus three redirect variants) with Google Trust Services SSL.
+
+Footer cross-link added here under the Standard column ("Advisor Brain"). Sister-surface symmetry: brain.quietlyos.org footer + Open Standard section + Hero CTA all link back to quietlyos.org. Both sites are now reachable from each other.
+
+---
+
 ## 2026-04-26... content.v1 Schema Family + 3-Source CLAUDE.md Generation
 
 content.v1 ships as the third QOS programmatic-identity schema after values.v1 and voice.v1. The CLAUDE.md generator goes from 2-source to 3-source in the same atomic cutover. Phase 1 schema layer moves from 6/14 to 7/14 shipped. The 5 content ABSOLUTE patterns now render as HARD RULE blocks in CLAUDE.md, satisfying defense-in-depth on absolutes for content the same way voice principles already satisfy it for voice.
