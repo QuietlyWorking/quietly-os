@@ -221,3 +221,18 @@ The values layer encodes TIG's 5-line compass structurally: people first, wisdom
 - `QWR.values.resolved.json` (auto-generated with full lineage, 1,369 lines)
 - `validate_values.py` + `resolve_values.py` (production CLIs)
 - `Values-Editor-Spec-v1.md` (buildable spec for first QOP page)
+
+---
+
+## 2026-05-19... First cross-plane operational artifact on a vospa-roadmap child
+
+A supporter brand's vospa-roadmap.v1 instance now carries a 14-phase project that uses the QOS schema family itself as delivered milestones. Five of the fourteen phases are the QOS content-governing schemas... values.v1, voice.v1, universe.v1, content.v1, decisions.v1... shown as discrete shipped phases in the supporter's portfolio view.
+
+This is the first time a vospa-roadmap child uses the standard's own schema ships as project phases, anchoring QOS to a supporter visually rather than abstractly. The narrative names the three-plane architecture in plain language: QOP writes the schemas, QWB executes the per-supporter work, QSP observes and presents the deliverable.
+
+Project status... 9 of 14 phases delivered, 1 in-flight, 3 planned, 1 waiting on observability.v1.
+
+The in-flight phase wires content-pipeline decisions into the Advisor Brain's decisions.v1 ledger. Honest staged sub-triggers replaced an earlier vapor-config gate (the original "90% trust" criterion depended on the Brain's Phase 3 trust-meter mechanism which is still planned). The lesson... phase-trigger criteria must themselves be probe-verified to exist before being named as locked gates.
+
+One architectural-decision Brain card landed alongside the project, queued for verdict on whether content-pipeline decisions should ride the unified Brain ledger or a sibling table with a promotion-to-corpus action. Either outcome preserves Preference 16... deliberation-as-learning. The card surfaces in the next morning digest.
+
