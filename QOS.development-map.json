@@ -2,9 +2,9 @@
   "$schema": "https://quietlyworking.org/schemas/roadmap/qos_development_map.v1.json",
   "meta": {
     "schemaVersion": 1,
-    "mapVersion": "1.1.0",
+    "mapVersion": "1.2.0",
     "createdAt": "2026-04-23",
-    "updatedAt": "2026-04-26",
+    "updatedAt": "2026-06-27",
     "lastReviewedAt": "2026-04-23",
     "owners": [
       "TIG"
@@ -74,6 +74,22 @@
         "date": "2026-04-26",
         "change": "Toggled p1.content.v1: in-flight -> shipped",
         "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-05-13",
+        "change": "mapVersion 1.1.0 -> 1.2.0. Added p1.glossary.v1 as the 14th programmatic-identity schema (15th p1 node counting the dev map itself). Schema-layer candidate for org-terminology disambiguation. Surfaced when TIG mistook a Phase number for a Wave number in the QWF Email Infrastructure build plan; the dual-taxonomy was authored without explicit cross-reference and the confusion was structural. glossary.v1 would let a validator flag any document conflating registered terms, let content generators auto-emit disambiguation blocks, and give supporter onboarding a place to capture their terminology once (compounding across QSP, QWR, QQT, QNT, QWB, Ezer). Principle already named in memory/project_qop_journey_intelligence.md.",
+        "reason": "Schema candidate captured at TIG's direction during the QWF Email Infrastructure multi-agent build. Phase 1 status: planned. Not yet scheduled; sits in the schema-layer with parallel-safe siblings (people.v1, automations.v1, tools.v1, wisdom.v1).",
+        "author": "TIG + Claude (Opus 4.7)"
+      },
+      {
+        "date": "2026-06-27",
+        "change": "Toggled p1.qos.integration-standard: planned -> in-flight",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-06-27",
+        "change": "Toggled p1.qos.integration-standard: in-flight -> shipped",
+        "author": "toggle_development_map_node.py"
       }
     ]
   },
@@ -92,8 +108,8 @@
     {
       "id": "p1",
       "label": "Schema Layer",
-      "description": "The 13 programmatic-identity schemas of QOS (values, brand, site, voice, universe, interconnect, content, tools, wisdom, people, automations, metrics, passport) plus the development-map schema itself. Each schema defines its concern as a JSON contract with inheritance, cascade policy, and self-identifying meta.",
-      "goal": "All 14 p1 nodes shipped with schema files, root/child instances where applicable, and associated validators/resolvers.",
+      "description": "The 14 programmatic-identity schemas of QOS (values, brand, site, voice, universe, interconnect, content, glossary, tools, wisdom, people, automations, metrics, passport) plus the development-map schema itself. Each schema defines its concern as a JSON contract with inheritance, cascade policy, and self-identifying meta.",
+      "goal": "All 15 p1 nodes shipped with schema files, root/child instances where applicable, and associated validators/resolvers.",
       "order": 1
     },
     {
@@ -769,6 +785,24 @@
       "tags": [
         "schema-layer",
         "youth-protection-sensitive"
+      ]
+    },
+    {
+      "id": "p1.glossary.v1",
+      "phase": "p1",
+      "label": "glossary.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Organizational terminology schema. Per-org glossary of terms with definitions, scope, synonyms-forbidden mappings, and disambiguation rules. Captures both QWF-internal lingo (phase vs wave, executor vs reviewer, kickoff vs brainstorm) AND supporter-specific terminology (their CRM names, their journey-stage labels) so every downstream content surface, validator, and agent can resolve a term consistently. Inheritance pattern matches values.v1 and brand.v2.x: QWF.glossary.json is the root; supporters inherit and override.",
+      "why": "Surfaced 2026-05-13 when TIG mistook a Phase number for a Wave number in the QWF Email Infrastructure build plan. The dual-taxonomy was authored without explicit disambiguation; the confusion was structural, not user-error. A glossary.v1 schema lets a validator flag any document that conflates registered terms, lets content generators auto-emit disambiguation blocks, and gives supporter onboarding a place to capture their terminology once with compounding returns across QSP, QWR, QQT, QNT, QWB, Ezer. The principle was already named in memory/project_qop_journey_intelligence.md: terminology is an ecosystem multiplier.",
+      "parallel_safe_with": [
+        "p1.people.v1",
+        "p1.automations.v1",
+        "p1.tools.v1",
+        "p1.wisdom.v1"
+      ],
+      "tags": [
+        "schema-layer",
+        "foundational"
       ]
     },
     {
@@ -1487,6 +1521,66 @@
         "open-standard",
         "governance",
         "post-founder-durability"
+      ]
+    },
+    {
+      "id": "p1.qos.integration-standard",
+      "phase": "p1",
+      "label": "QOS App Integration Standard (Directive)",
+      "status": "shipped",
+      "description": "Foundational directive mandating a slow-down step at every QWF app proposal: each canonical QOS integration surface (workspace.v1 registration, decisions.v1 logging, events-feed alignment, audit-log alignment, Brain corpus contribution, consent.v1 honoring) gets a deliberate posture (integrate / defer / never) with rationale, enforced by a required proposal section + Lead-Advisor gate. A governance/meta artifact in the schema layer, sibling to the development map itself.",
+      "why": "QCM Phase 0 drifted past proposal review and eleven step close-outs without explicit QOS+Brain consideration (QCM D-014). The standard makes the consideration mandatory and memory-independent, so the next app cannot repeat that drift. Piloted into existence by the 2026-06-27 consent epic, which became its first worked posture declaration.",
+      "depends_on": [
+        "p1.qos.development-map"
+      ],
+      "tags": [
+        "foundational",
+        "governance",
+        "meta",
+        "schema-layer"
+      ],
+      "timestamps": {
+        "in_flight_since": "2026-06-27T01:05:24.484469-07:00",
+        "shipped_at": "2026-06-27"
+      },
+      "files": [
+        {
+          "path": "005 Operations/Directives/qwf_app_qos_integration_standard.md",
+          "kind": "directive"
+        }
+      ],
+      "working_manual_entry": {
+        "date": "2026-06-27",
+        "heading": "QOS App Integration Standard Shipped"
+      }
+    },
+    {
+      "id": "p1.consent.v1",
+      "phase": "p1",
+      "label": "consent.v1 Schema + Instance",
+      "status": "planned",
+      "description": "Channel-aware family consent schema. Models consent as (subject person-identity x channel x category x state x source x time). DNC = opted_out on the call channel; one primitive, four compliance regimes (email unsubscribe, SMS STOP, push-off, call/DNC). QCM contact_state_consent (generalized from product-scoped to channel-aware) is the reference implementation; the family source of truth for all preference/consent. Designed in relationship with people.v1 (identity) + passport.v1 (cross-app travel).",
+      "why": "Today consent is product-scoped email only, ~8 senders call the gate, every L4G sender bypasses it, and there is no DNC home. A toggle that does nothing is a lie to the person (BIG WHY). One channel-aware standard, expressed as a QOS schema and consumed by every app and ops script, makes the universal consent gate part of 'a sender is allowed to send.'",
+      "depends_on": [
+        "p1.values.v1"
+      ],
+      "tags": [
+        "schema-layer",
+        "load-bearing",
+        "consent",
+        "supporter-sensitive"
+      ]
+    },
+    {
+      "id": "p1.workspace.v1",
+      "phase": "p1",
+      "label": "workspace.v1 Schema + Instance",
+      "status": "planned",
+      "description": "App/workspace identity-registration schema. Each QWF app registers itself as a workspace node so the family knows the app exists, who it serves, and how it is addressed. The first canonical surface in the QOS App Integration Standard. Not yet designed.",
+      "why": "Tracked node created by the consent.v1 pilot's QOS-schema-TBD deferral, demonstrating the integration standard's missing-schema mechanism end-to-end: every QOS-schema-TBD defer leaves a durable roadmap artifact rather than a note in an agent's head.",
+      "tags": [
+        "schema-layer",
+        "integration-surface"
       ]
     }
   ],
