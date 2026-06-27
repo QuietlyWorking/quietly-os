@@ -6,6 +6,18 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-06-27... QOS App Integration Standard (Foundational) + Three Dev-Map Nodes
+
+The QWF family consent epic piloted a long-banked governance force into existence: `qwf_app_qos_integration_standard.md`, a new foundational directive that makes "slow down and consider QOS integration" a mandatory, memory-independent step at every QWF app proposal. The originating gap was QCM Phase 0 (Decisions.md D-014), which drifted past proposal review and eleven step close-outs without explicit QOS plus Brain consideration. The standard removes "we forgot" as a possible outcome: every proposal now carries a required `§QOS-Integration` section, pre-filled with the six canonical surfaces, and a Lead-Advisor design-phase gate confirms each surface posts a deliberate posture (integrate / defer / never) with rationale.
+
+The six canonical surfaces: `workspace.v1` registration, `decisions.v1` logging, events-feed alignment, audit-log alignment, Brain corpus contribution, and `consent.v1` honoring (the surface this very pilot added). A `QOS-schema-TBD` defer is not a dismissal... it creates a tracked dev-map node so the family roadmap, not an agent's memory, owns the follow-up. The standard proves itself: the consent pilot's deferral of the unbuilt `workspace.v1` left a real node behind.
+
+- Authored the directive with all ten structure sections plus the consent.v1 worked posture table and a retroactive walk-through showing it would have caught D-014.
+- Three dev-map nodes added (validator CLEAN): `p1.qos.integration-standard` shipped (mirrors the development-map's own meta node), `p1.consent.v1` planned (consent epic Track D3 builds the schema), `p1.workspace.v1` planned (the QOS-schema-TBD tracker created by the pilot's own deferral).
+- Companion cross-links: CLAUDE.md Foundational Directives row + `qwf_app_family_standard.md` design-phase reference. Brain integration kept to a named sibling standard plus a Brain dev-map cross-link, not authored here. The enforcement validator script is documented intent, a follow-on build.
+
+---
+
 ## 2026-05-06... Federation Gate OPENED + TWL v1.3.0 Rewrite (Sessions 346 + 347)
 
 The federation gate that the prior session walked back actually opens cleanly via the Supabase Management API endpoint nobody had publicly verified for inter-Supabase-project federation. The empirical gate session ran POST against `/v1/projects/{ref}/config/auth/third-party-auth` registering the issuing project as a "custom" OIDC issuer on the consuming project; received HTTP 201 with `resolved_jwks` populated synchronously in the response body (not async-polling as feared); confirmed byte-for-byte JWKS match against the issuer's live `/auth/v1/.well-known/jwks.json` endpoint; signed a user JWT on the issuing project; called the consuming project's PostgREST with that JWT in the Authorization header; received a single tenant-scoped row matching the JWT's `app_metadata.qos_tenant_id` claim through the project's `qos_caller_tenant_id()` helper. Anon baseline returned the empty array (regression guard satisfied: the result was JWT-driven, not policy drift). Federation cost = the one POST. Full evidence in `.tmp/qsp-qos-empirical-gate-report.md`.
