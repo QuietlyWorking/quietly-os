@@ -90,6 +90,16 @@
         "date": "2026-06-27",
         "change": "Toggled p1.qos.integration-standard: in-flight -> shipped",
         "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-06-27",
+        "change": "Toggled p1.consent.v1: planned -> in-flight",
+        "author": "toggle_development_map_node.py"
+      },
+      {
+        "date": "2026-06-27",
+        "change": "Toggled p1.consent.v1: in-flight -> shipped",
+        "author": "toggle_development_map_node.py"
       }
     ]
   },
@@ -1558,7 +1568,7 @@
       "id": "p1.consent.v1",
       "phase": "p1",
       "label": "consent.v1 Schema + Instance",
-      "status": "planned",
+      "status": "shipped",
       "description": "Channel-aware family consent schema. Models consent as (subject person-identity x channel x category x state x source x time). DNC = opted_out on the call channel; one primitive, four compliance regimes (email unsubscribe, SMS STOP, push-off, call/DNC). QCM contact_state_consent (generalized from product-scoped to channel-aware) is the reference implementation; the family source of truth for all preference/consent. Designed in relationship with people.v1 (identity) + passport.v1 (cross-app travel).",
       "why": "Today consent is product-scoped email only, ~8 senders call the gate, every L4G sender bypasses it, and there is no DNC home. A toggle that does nothing is a lie to the person (BIG WHY). One channel-aware standard, expressed as a QOS schema and consumed by every app and ops script, makes the universal consent gate part of 'a sender is allowed to send.'",
       "depends_on": [
@@ -1569,7 +1579,33 @@
         "load-bearing",
         "consent",
         "supporter-sensitive"
-      ]
+      ],
+      "timestamps": {
+        "in_flight_since": "2026-06-27T02:14:57.201824-07:00",
+        "shipped_at": "2026-06-27"
+      },
+      "files": [
+        {
+          "path": "005 Operations/Standards/consent/consent.v1.schema.json",
+          "kind": "schema"
+        },
+        {
+          "path": "005 Operations/Standards/consent/QWF.consent.json",
+          "kind": "instance"
+        },
+        {
+          "path": "005 Operations/Execution/validate_consent.py",
+          "kind": "script"
+        },
+        {
+          "path": "005 Operations/Directives/qwf_consent_and_preferences_standard.md",
+          "kind": "directive"
+        }
+      ],
+      "working_manual_entry": {
+        "date": "2026-06-27",
+        "heading": "consent.v1 Schema + QWF Consent & Preferences Standard Shipped"
+      }
     },
     {
       "id": "p1.workspace.v1",

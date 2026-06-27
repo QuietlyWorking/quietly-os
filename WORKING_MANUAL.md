@@ -6,6 +6,19 @@ Read top-to-bottom: newest first.
 
 ---
 
+## 2026-06-27... consent.v1 Schema Shipped + Three Consent Rules Go Load-Bearing
+
+The QWF family now has one channel-aware consent model, expressed as the ninth QOS schema, `consent.v1`. A consent fact is `(subject x channel x category x state x source x audit)`: a person, reachable on a channel (email / sms / call / push), for a category, in a state (opted_in / opted_out / never_set), from an attributable source, at a time. Do-Not-Call is not a special case... it is simply `opted_out` on the call channel, so one primitive carries four compliance regimes (email unsubscribe, SMS STOP, push-off, call/DNC).
+
+The single most important property is encoded in the schema itself, not just in a validator: the `transactional` category is structurally locked-on. The schema rejects an `opted_out` write on a transactional record, so no surface can ever serialize a suppressed receipt, auth message, or critical alert. `validate_consent.py` proves this by self-test (it constructs an opted_out transactional record and asserts the schema refuses it) and then enforces the rule across every locked category as defense in depth.
+
+- The subject reference is a clean seam to the unbuilt people.v1 (identity) and passport.v1 (cross-app travel) schemas. consent.v1 implements against the QCM contact-state id today and lets identity adopt the contract later with zero rework, rather than blocking a compliance-bearing schema on two unbuilt ones.
+- Companions: the `QWF.consent.json` family category catalog (five categories, each carrying the legacy mapping the substrate migration will follow), a worked examples file (DNC, SMS STOP, locked transactional), and the foundational directive `qwf_consent_and_preferences_standard.md` (universal gate, three-plane mapping, per-app category registration, federation via qos_tenants + JWT-claim RLS).
+- The three consent non-negotiables went load-bearing in values.v1 (derived from the sacred-guesthood core value): every sender resolves the model before sending; transactional is never suppressible; a call opt-out is legal gravity, not a soft preference. They now inject into every agent session via the generated CLAUDE.md block.
+- Dev-map node `p1.consent.v1` moved planned to shipped; all three validators (consent / values / dev-map) are clean. Next live step is the gated substrate migration that makes the QCM consent table channel-aware.
+
+---
+
 ## 2026-06-27... QOS App Integration Standard (Foundational) + Three Dev-Map Nodes
 
 The QWF family consent epic piloted a long-banked governance force into existence: `qwf_app_qos_integration_standard.md`, a new foundational directive that makes "slow down and consider QOS integration" a mandatory, memory-independent step at every QWF app proposal. The originating gap was QCM Phase 0 (Decisions.md D-014), which drifted past proposal review and eleven step close-outs without explicit QOS plus Brain consideration. The standard removes "we forgot" as a possible outcome: every proposal now carries a required `§QOS-Integration` section, pre-filled with the six canonical surfaces, and a Lead-Advisor design-phase gate confirms each surface posts a deliberate posture (integrate / defer / never) with rationale.
