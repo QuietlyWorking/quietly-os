@@ -1,0 +1,36 @@
+name: A11y Gate (warn-only)
+
+# QWF UI Interaction & Accessibility Standard ... machine-checkable subset.
+# Runs the vendored checker (.a11y/detect_ui_interaction_gaps.py), which is kept
+# BYTE-IDENTICAL to the canonical
+#   005 Operations/Execution/detect_ui_interaction_gaps.py
+# in the QWU backoffice vault. Drift is hard-gated fleet-wide by
+# run_a11y_fleet_sweep.py (fails if any vendored copy's sha256 != canonical).
+#
+# The gate is PR-native: it annotates each finding inline on the changed lines
+# of a pull request. It needs no Node, no build, and no Cloudflare token ... the
+# checker is one dependency-free Python file (stdlib only), so it never touches
+# the deploy pipeline in deploy.yml.
+#
+# WARN-ONLY: `continue-on-error: true` on the gate step keeps the build GREEN even
+# when findings exist ... they still surface as inline PR annotations. To PROMOTE
+# this app to fail-the-build (the Tier-1 flip), delete that ONE line. HELD for
+# TIG's ratified ratchet + close-by date ... do not flip without his explicit go.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  a11y:
+    name: A11y interaction/accessibility gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run a11y checker (machine-checkable subset, warn-only)
+        continue-on-error: true  # WARN-ONLY. Delete this line to fail the build (Tier-1 flip).
+        run: python3 .a11y/detect_ui_interaction_gaps.py --github src
