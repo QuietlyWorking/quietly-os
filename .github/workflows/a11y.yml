@@ -1,4 +1,4 @@
-name: A11y Gate (warn-only)
+name: A11y Gate (fail-the-build)
 
 # QWF UI Interaction & Accessibility Standard ... machine-checkable subset.
 # Runs the vendored checker (.a11y/detect_ui_interaction_gaps.py), which is kept
@@ -12,10 +12,12 @@ name: A11y Gate (warn-only)
 # checker is one dependency-free Python file (stdlib only), so it never touches
 # the deploy pipeline in deploy.yml.
 #
-# WARN-ONLY: `continue-on-error: true` on the gate step keeps the build GREEN even
-# when findings exist ... they still surface as inline PR annotations. To PROMOTE
-# this app to fail-the-build (the Tier-1 flip), delete that ONE line. HELD for
-# TIG's ratified ratchet + close-by date ... do not flip without his explicit go.
+# FAIL-THE-BUILD (Tier-1, TIG-ratified ratchet 2026-07-18): the checker exits
+# non-zero on any warning-severity gap and this step carries NO continue-on-error,
+# so a finding turns this check RED on pull_request + push:main. HONEST SCOPE: these
+# repos have no branch-protection required-status-check yet, so a red check is a
+# loud signal, not a merge block ... wiring the a11y job as a required status check
+# is a named next lane, not this change.
 
 on:
   pull_request:
@@ -31,6 +33,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run a11y checker (machine-checkable subset, warn-only)
-        continue-on-error: true  # WARN-ONLY. Delete this line to fail the build (Tier-1 flip).
+      - name: Run a11y checker (machine-checkable subset, fail-the-build)
         run: python3 .a11y/detect_ui_interaction_gaps.py --github src
