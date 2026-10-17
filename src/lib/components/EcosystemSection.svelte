@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Ecosystem section... QOS variant of the standard widget.
 	// Per 005 Operations/Directives/qwf_ecosystem_landing_section.md §Customer-Facing Naming Rule:
-	// full app names, no acronyms. QSP is always center. Current "app" (QOS) at 12 o'clock.
+	// full app names, no acronyms. Quietly Spotting is always center.
 	//
 	// For the QOS v1 landing, we render a simplified static-SVG orbit. No auto-cycle,
 	// no spotlight, no complex interaction... QOS isn't an app in the widget sense; it's the
@@ -9,41 +9,67 @@
 	//
 	// Full interactive orbit (spotlight, auto-cycle, card sync) belongs in the QOP/QSP apps
 	// per directive v2.1.1. For a road-sign landing, simplicity wins.
+	//
+	// Why the apps are not written here: which apps orbit, and their names, come from the shared
+	// QWF list (see orbitFeed.ts), the same one every app page and the Universe page read. Only
+	// this page's color per app lives here, with a plain default for an app added later.
+	import { onMount } from 'svelte';
+	import { ORBIT_FALLBACK, loadOrbitApps, type OrbitApp } from '$lib/ecosystem/orbitFeed';
 
 	type Sat = {
 		name: string;
-		color: string; // tailwind color name
-		status: 'live' | 'in-production';
-		href: string;
+		color: string;
+		dashed?: boolean;
 	};
 
-	// 8 satellites. Current "plane" (QOS) not in the orbit itself... QOS is the foundation the
-	// orbit sits on. Instead we highlight the 3 planes + the 7 QWF programs + "Your Tools".
-	const satellites: Sat[] = [
-		{ name: 'Quietly Writing', color: '#d9a752', status: 'live', href: 'https://quietlywriting.org' },
-		{ name: 'Quietly Quoting', color: '#a78bfa', status: 'in-production', href: 'https://quietlyquoting.org' },
-		{ name: 'Quietly Tracking', color: '#60a5fa', status: 'in-production', href: 'https://quietlytracking.org' },
-		{ name: 'Quietly Networking', color: '#4ade80', status: 'live', href: 'https://quietlynetworking.org' },
-		{ name: 'Quietly Knocking', color: '#fbbf24', status: 'live', href: 'https://quietlyknocking.org' },
-		{ name: 'Quietly Managing', color: '#fb923c', status: 'in-production', href: 'https://quietlymanaging.org' },
-		{ name: 'QWF Passport', color: '#fbbf24', status: 'live', href: 'https://www.quietlyworking.org' },
-		{ name: 'Your Tools', color: '#94a3b8', status: 'live', href: 'https://quietlyspotting.org' }
+	const COLORS: Record<string, string> = {
+		qwr: '#d9a752',
+		qqt: '#a78bfa',
+		qtr: '#60a5fa',
+		qnt: '#4ade80',
+		qkn: '#fbbf24',
+		qwb: '#22d3ee',
+		qst: '#2dd4bf',
+		qpn: '#fb923c'
+	};
+	const DEFAULT_COLOR = '#94a3b8';
+
+	// QOS itself is not in the orbit... it is the foundation the orbit sits on. The two family
+	// features always close the ring.
+	const features: Sat[] = [
+		{ name: 'QWF Passport', color: '#fbbf24' },
+		{ name: 'Your Tools', color: '#94a3b8', dashed: true }
 	];
 
-	const center = { name: 'Quietly Spotting', color: '#10b981', href: 'https://quietlyspotting.org' };
+	let apps = $state<OrbitApp[]>([...ORBIT_FALLBACK]);
+	onMount(() => {
+		// The live list; on any failure the built-in copy simply stays.
+		loadOrbitApps().then((live) => {
+			if (live) apps = live;
+		});
+	});
+
+	let satellites = $derived<Sat[]>([
+		...apps.map((a) => ({ name: a.name, color: COLORS[a.id] ?? DEFAULT_COLOR })),
+		...features
+	]);
+
+	const center = { name: 'Quietly Spotting', color: '#10b981' };
 
 	const cx = 300;
 	const cy = 300;
 	const r = 180;
 
-	const positioned = satellites.map((s, i) => {
-		const angle = -Math.PI / 2 + (i * 2 * Math.PI) / satellites.length;
-		return {
-			...s,
-			x: cx + r * Math.cos(angle),
-			y: cy + r * Math.sin(angle)
-		};
-	});
+	let positioned = $derived(
+		satellites.map((s, i) => {
+			const angle = -Math.PI / 2 + (i * 2 * Math.PI) / satellites.length;
+			return {
+				...s,
+				x: cx + r * Math.cos(angle),
+				y: cy + r * Math.sin(angle)
+			};
+		})
+	);
 </script>
 
 <section class="border-t border-border/50 bg-background">
@@ -87,10 +113,10 @@
 					viewBox="0 0 600 600"
 					class="h-full w-full"
 					preserveAspectRatio="xMidYMid meet"
-					aria-label="QWF ecosystem orbit: Quietly Spotting center, seven programs and your tools in orbit"
+					aria-label="QWF ecosystem orbit: Quietly Spotting at the center, the QWF apps and your tools around it"
 				>
 					<!-- Connecting lines -->
-					{#each positioned as p}
+					{#each positioned as p (p.name)}
 						<line
 							x1={cx}
 							y1={cy}
@@ -109,15 +135,7 @@
 							<animate attributeName="stroke-opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite" />
 						</circle>
 						<circle cx={cx} cy={cy} r="32" fill="none" stroke={center.color} stroke-width="3" />
-						<text
-							x={cx}
-							y={cy + 4}
-							text-anchor="middle"
-							font-family="system-ui, sans-serif"
-							font-size="16"
-							font-weight="600"
-							fill={center.color}>QSP</text
-						>
+						<circle cx={cx} cy={cy} r="6" fill={center.color} />
 						<text
 							x={cx}
 							y={cy + 70}
@@ -129,9 +147,9 @@
 					</g>
 
 					<!-- Satellites -->
-					{#each positioned as p}
+					{#each positioned as p (p.name)}
 						<g>
-							{#if p.name === 'Your Tools'}
+							{#if p.dashed}
 								<circle
 									cx={p.x}
 									cy={p.y}
